@@ -1,0 +1,250 @@
+/* =========================================
+   CAMPO.CSS - CORREGIDO Y MEJORADO
+   ========================================= */
+
+:root {
+    --primary: #2C5F2D;
+    --accent: #D4A373;
+    --accent-hover: #C6925D;
+    --bg-overlay: rgba(250, 250, 245, 0.93);
+    --white: #FFFFFF;
+    --shadow: 0 10px 30px rgba(0,0,0,0.08);
+    --radius: 8px;
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Lato', sans-serif;
+    --header-h: 70px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-body);
+    color: var(--primary);
+    line-height: 1.6;
+    background-color: #FAFAF5;
+    padding-top: var(--header-h);
+}
+
+/* PRELOADER */
+#page-loader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #FAFAF5; z-index: 9999;
+    display: flex; justify-content: center; align-items: center;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+.loader-hidden { opacity: 0; visibility: hidden; }
+.loader-logo { width: 150px; animation: pulse 1.5s infinite ease-in-out; }
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+img { width: 100%; display: block; }
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+ul { list-style: none; padding: 0; margin: 0; }
+
+/* HEADER */
+.header {
+    position: fixed; top: 0; left: 0; width: 100%; height: var(--header-h);
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05); z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+}
+.header-inner { width: 90%; max-width: 1200px; display: flex; justify-content: space-between; align-items: center; }
+.logo-img { height: 100px; width: auto; transition: 0.3s; }
+
+.hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 10px; z-index: 1001; }
+.hamburger .bar { width: 25px; height: 3px; background-color: var(--primary); transition: 0.3s; }
+.hamburger.is-active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.is-active .bar:nth-child(2) { opacity: 0; }
+.hamburger.is-active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.nav-menu {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #FFF;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    opacity: 0; visibility: hidden; pointer-events: none; transition: all 0.4s ease; z-index: 1000;
+}
+.nav-menu.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+.nav-list { text-align: center; display: flex; flex-direction: column; gap: 25px; }
+.nav-link { font-weight: 700; text-transform: uppercase; font-size: 1.2rem; letter-spacing: 2px; color: var(--primary); }
+.nav-btn-highlight { color: var(--accent); font-weight: 700; text-transform: uppercase; border: 1px solid var(--accent); padding: 12px 40px; border-radius: 50px; margin-top: 15px; }
+
+/* HERO */
+.hero-section {
+    position: relative; height: 70vh; min-height: 500px;
+    background: url('../img/campo/exteriores/exterior1.png') center/cover no-repeat;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+}
+.hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); }
+.hero-content { position: relative; z-index: 2; color: #FFF; width: 90%; max-width: 800px; }
+.hero-badge { background: var(--accent); color: #FFF; padding: 5px 15px; border-radius: 50px; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 15px; display: inline-block; font-weight: 700; }
+.hero-content h1 { font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 15px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+.hero-content p { font-size: 1.1rem; margin-bottom: 30px; opacity: 0.9; }
+.hero-actions { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+.btn-primary { background: var(--accent); color: #FFF; padding: 12px 30px; border-radius: 50px; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; display: inline-block; }
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); }
+.btn-outline { background: transparent; border: 1px solid #FFF; color: #FFF; padding: 12px 30px; border-radius: 50px; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; display: inline-block; }
+.btn-outline:hover { background: #FFF; color: var(--primary); }
+
+/* VIDEO SECTON (CINE) */
+.video-section {
+    background: #111;
+    padding: 0;
+    padding-bottom: 40px;
+}
+.video-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+    /* Sombras para dar efecto de "sobre el hero" si se quiere, o plano */
+}
+.video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+/* SECTIONS */
+.section-container { padding: 80px 20px; max-width: 1200px; margin: 0 auto; }
+.intro-section { padding-top: 80px; padding-bottom: 60px; max-width: 1200px; margin: 0 auto; }
+.bg-light { background: #FFF; border-top: 1px solid #EEE; border-bottom: 1px solid #EEE; }
+.bg-pattern { background-image: radial-gradient(#DDD 1px, transparent 1px); background-size: 20px 20px; }
+.bg-dark { background: #2D3436; border-top: 1px solid #444; border-bottom: 1px solid #444; }
+
+.text-center { text-align: center; }
+.section-subtitle { display: block; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; margin-bottom: 10px; }
+.section-title { font-family: var(--font-heading); font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
+.section-desc { color: #666; margin-bottom: 40px; }
+.divider-left { width: 60px; height: 3px; background: var(--accent); margin-bottom: 20px; }
+.divider-small { width: 50px; height: 3px; background: var(--accent); margin: 15px auto; }
+
+.intro-grid { display: flex; flex-direction: column; gap: 40px; }
+.features-list { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+.features-list li { font-size: 0.9rem; color: var(--primary); font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.features-list i { color: var(--accent); }
+.img-main { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); }
+
+/* AMENITIES */
+.amenities-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.amenity-item { background: #FFF; padding: 25px; text-align: center; border-radius: var(--radius); box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+.amenity-item i { font-size: 2rem; color: var(--accent); margin-bottom: 10px; }
+.amenity-item h4 { color: var(--primary); margin-bottom: 5px; font-size: 1rem; }
+.amenity-item p { color: #888; font-size: 0.8rem; }
+
+/* GALLERY GRID */
+.gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+.gallery-card { height: 150px; overflow: hidden; border-radius: var(--radius); cursor: pointer; position: relative; box-shadow: var(--shadow); transition: 0.3s; }
+.gallery-card:hover { transform: translateY(-5px); }
+.gallery-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+.gallery-card:hover img { transform: scale(1.05); }
+
+/* ANIMACIÓN SUAVE VER MÁS */
+.gallery-hidden { 
+    display: none; 
+    opacity: 0; 
+    transform: translateY(20px); 
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in { opacity: 1; transform: translateY(0); }
+
+.btn-text-toggle { background: none; border: none; font-size: 0.9rem; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; border-bottom: 2px solid var(--accent); padding-bottom: 5px; transition: 0.3s; }
+.btn-text-toggle:hover { color: var(--accent); }
+
+/* LIFESTYLE CAROUSEL (MARQUEE) */
+.marquee-container {
+    overflow: hidden;
+    position: relative;
+    padding: 20px 0;
+}
+.marquee-content {
+    display: flex;
+    gap: 20px;
+    animation: scroll 40s linear infinite; /* Animación continua */
+    width: max-content;
+}
+/* Al pasar el mouse, pausa para ver la foto */
+.marquee-content:hover { animation-play-state: paused; }
+
+.marquee-item {
+    width: 250px;
+    height: 350px;
+    flex-shrink: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+.marquee-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.marquee-item:hover img { transform: scale(1.1); }
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* Se mueve hasta la mitad (donde se repite) */
+}
+
+/* MODALIDADES */
+.rooms-grid { display: grid; gap: 30px; }
+.room-card { background: #FFF; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); border: 1px solid #EEE; transition: 0.3s; }
+.featured { border: 2px solid var(--accent); position: relative; }
+.badge-featured { position: absolute; top: 15px; right: 15px; background: var(--accent); color: #FFF; padding: 5px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+
+/* FOOTER */
+.footer-cta { background: url('../img/campo/exteriores/exterior7.png') center/cover; padding: 80px 20px; text-align: center; color: #FFF; position: relative; }
+.cta-overlay { position: absolute; inset: 0; background: rgba(26, 60, 27, 0.9); }
+.cta-content { position: relative; z-index: 2; }
+.contact-info { display: flex; flex-direction: column; gap: 10px; margin: 20px 0 40px; font-size: 1.1rem; }
+.contact-info i { color: var(--accent); margin-right: 8px; }
+.copyright { font-size: 0.8rem; opacity: 0.6; margin-top: 40px; }
+
+/* MODAL CORREGIDO */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
+/* Cambio clave para que no estire las fotos: max-width auto */
+.modal-content { 
+    max-width: 90vw; 
+    max-height: 85vh; 
+    width: auto; 
+    height: auto; 
+    object-fit: contain; /* Mantiene la proporción */
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+.modal-close { position: absolute; top: 20px; right: 30px; color: #FFF; font-size: 40px; cursor: pointer; }
+.modal-nav { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; color: #FFF; font-size: 3rem; cursor: pointer; padding: 0 20px; }
+.modal-prev { left: 0; } .modal-next { right: 0; }
+
+.floating-actions { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 1100; }
+.action-bubble { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 1.3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s; }
+.action-bubble:hover { transform: scale(1.1); color: #FFF; }
+.green { background: #25D366; } .dark { background: var(--primary); }
+
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+@media (min-width: 1024px) {
+    :root { --header-h: 110px; }
+    .logo-img { height: 170px; }
+    .hamburger { display: none; }
+    .nav-menu { position: static; height: auto; width: auto; background: transparent; opacity: 1; visibility: visible; pointer-events: auto; display: block; }
+    .nav-list { flex-direction: row; gap: 40px; }
+    .nav-link { font-size: 0.85rem; padding: 10px 0; position: relative; }
+    .nav-link::after { content: ''; position: absolute; bottom: 5px; left: 0; width: 0; height: 1px; background: var(--accent); transition: 0.3s; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-btn-highlight { padding: 10px 30px; margin: 0; font-size: 0.85rem; transition: 0.3s; }
+    .nav-btn-highlight:hover { background: var(--accent); color: #FFF; }
+    .hero-content h1 { font-size: 4rem; }
+    .hero-actions { flex-direction: row; justify-content: center; }
+    .intro-grid { flex-direction: row; align-items: center; padding: 0 40px; }
+    .features-list { justify-content: flex-start; }
+    .amenities-grid { grid-template-columns: repeat(4, 1fr); gap: 40px; }
+    .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .gallery-card { height: 250px; }
+    .rooms-grid { grid-template-columns: repeat(3, 1fr); }
+    .contact-info { flex-direction: row; justify-content: center; gap: 40px; }
+    .video-section { padding-bottom: 60px; }
+    /* Ajuste marquee desktop */
+    .marquee-item { width: 350px; height: 450px; }
+}

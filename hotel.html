@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel El Tagüé | Tu Refugio en Gualeguaychú</title>
+    
+    <link rel="stylesheet" href="css/hotel.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="page-loader">
+        <div class="loader-content">
+            <img src="img/logo.svg" alt="Cargando..." class="loader-logo">
+        </div>
+    </div>
+
+    <header class="header" id="mainHeader">
+        <div class="header-inner">
+            <a href="index.html" class="logo-link">
+                <img src="img/logo.svg" alt="El Tagüé" class="logo-img">
+            </a>
+
+            <button class="hamburger" id="hamburgerBtn" aria-label="Menú">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <nav class="nav-menu" id="navMenu">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Inicio</a></li>
+                    <li><a href="#habitaciones" class="nav-link">Habitaciones</a></li>
+                    <li><a href="#servicios" class="nav-link">Servicios</a></li>
+                    <li><a href="#ubicacion" class="nav-link">Ubicación</a></li>
+                    <li><a href="#booking" class="nav-btn-highlight">Reservar</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content reveal">
+            <span class="hero-badge">Trayectoria & Calidad</span>
+            <h1>El Descanso que<br>su Viaje Merece</h1>
+            <p>Confort premium, piscina y parque a la vera de la Ruta 14.</p>
+            <div class="hero-actions">
+                <a href="#habitaciones" class="btn-primary">Ver Habitaciones</a>
+            </div>
+        </div>
+
+        <div class="booking-bar reveal" id="booking">
+            <div class="bb-item">
+                <label for="checkin" class="bb-label">Llegada</label>
+                <input type="date" id="checkin" class="bb-input">
+            </div>
+            <div class="bb-item">
+                <label for="checkout" class="bb-label">Salida</label>
+                <input type="date" id="checkout" class="bb-input">
+            </div>
+            <div class="bb-item">
+                <label for="guests" class="bb-label">Personas</label>
+                <select id="guests" class="bb-input">
+                    <option value="1">1 Persona</option>
+                    <option value="2" selected>2 Personas</option>
+                    <option value="3">3 Personas</option>
+                    <option value="4">4 Personas</option>
+                    <option value="5">5 Personas</option>
+                    <option value="+5">Más de 5</option>
+                </select>
+            </div>
+            <button id="btnConsultar" class="bb-btn">Consultar</button>
+        </div>
+    </section>
+
+    <section class="intro-section">
+        <div class="container intro-grid">
+            <div class="intro-text reveal">
+                <span class="section-subtitle">Bienvenidos</span>
+                <h2 class="section-title">Su Refugio en el Litoral</h2>
+                <div class="divider-small"></div>
+                <p>
+                    Ubicado estratégicamente para ser su parada ideal o su destino final. 
+                    Contamos con <strong>130 plazas</strong> y habitaciones equipadas con sommiers Simmons, 
+                    garantizando el mejor descanso de la región.
+                </p>
+                <ul class="features-list">
+                    <li><i class="fa-solid fa-check"></i> Wi-Fi Alta Velocidad</li>
+                    <li><i class="fa-solid fa-check"></i> Estacionamiento Techado</li>
+                    <li><i class="fa-solid fa-check"></i> Recepción 24hs</li>
+                </ul>
+            </div>
+            <div class="intro-images reveal">
+                <img src="img/hotel/fachada.png" alt="Fachada Hotel" class="img-main">
+                <img src="img/hotel/pileta.jpeg" alt="Piscina" class="img-small">
+            </div>
+        </div>
+    </section>
+
+    <section id="habitaciones" class="section-container bg-light">
+        <div class="container">
+            <div class="section-header text-center reveal">
+                <span class="section-subtitle">Alojamiento</span>
+                <h2 class="section-title">Nuestras Habitaciones</h2>
+                <p class="section-desc">Espacios diseñados para el relax total.</p>
+            </div>
+
+            <div class="rooms-grid">
+                <article class="room-card reveal">
+                    <div class="room-img">
+                        <img src="img/hotel/habitacion.png" alt="Habitación Single">
+                    </div>
+                    <div class="room-body">
+                        <h3>Base Single</h3>
+                        <p>Funcionalidad y descanso para el viajero de negocios.</p>
+                        <ul class="room-amenities">
+                            <li><i class="fa-solid fa-user"></i> 1 Pax</li>
+                            <li><i class="fa-solid fa-bed"></i> Queen</li>
+                            <li><i class="fa-solid fa-wifi"></i> Free</li>
+                        </ul>
+                        <button onclick="consultarHabitacion('Single')" class="btn-text">Reservar</button>
+                    </div>
+                </article>
+
+                <article class="room-card featured reveal">
+                    <span class="badge-featured">Más Elegida</span>
+                    <div class="room-img">
+                        <img src="img/hotel/habitacion3.jpg" alt="Habitación Doble">
+                    </div>
+                    <div class="room-body">
+                        <h3>Base Doble</h3>
+                        <p>Amplitud y confort superior para parejas.</p>
+                        <ul class="room-amenities">
+                            <li><i class="fa-solid fa-user-group"></i> 2 Pax</li>
+                            <li><i class="fa-solid fa-bed"></i> Matrimonial</li>
+                            <li><i class="fa-solid fa-bath"></i> Privado</li>
+                        </ul>
+                        <button onclick="consultarHabitacion('Doble')" class="btn-text">Reservar</button>
+                    </div>
+                </article>
+
+                <article class="room-card reveal">
+                    <div class="room-img">
+                        <img src="img/hotel/habitacion2.jpg" alt="Habitación Triple">
+                    </div>
+                    <div class="room-body">
+                        <h3>Base Triple</h3>
+                        <p>Espacios flexibles ideales para familias.</p>
+                        <ul class="room-amenities">
+                            <li><i class="fa-solid fa-users"></i> 3 Pax</li>
+                            <li><i class="fa-solid fa-bed"></i> Flexible</li>
+                            <li><i class="fa-solid fa-tv"></i> TV 32"</li>
+                        </ul>
+                        <button onclick="consultarHabitacion('Triple')" class="btn-text">Reservar</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="section-container bg-pattern">
+        <div class="container">
+            <div class="section-header text-center reveal">
+                <h2 class="section-title">Servicios Incluidos</h2>
+            </div>
+            
+            <div class="amenities-grid">
+                <div class="amenity-item reveal">
+                    <i class="fa-solid fa-person-swimming"></i>
+                    <h4>Piscina</h4>
+                    <p>Con solarium y parque.</p>
+                </div>
+                <div class="amenity-item reveal">
+                    <i class="fa-solid fa-car"></i>
+                    <h4>Cocheras</h4>
+                    <p>Techadas y seguras.</p>
+                </div>
+                <div class="amenity-item reveal">
+                    <i class="fa-solid fa-mug-hot"></i>
+                    <h4>Desayuno</h4>
+                    <p>Completo y artesanal.</p>
+                </div>
+                <div class="amenity-item reveal">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h4>Seguridad</h4>
+                    <p>Predio monitoreado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ubicacion" class="location-section">
+        <div class="location-content reveal">
+            <span class="section-subtitle">Gualeguaychú</span>
+            <h2>Ubicación Estratégica</h2>
+            <p>Seleccione un punto de interés para verlo en el mapa.</p>
+            
+            <div class="nearby-places">
+                <h3 class="places-title">Puntos de Interés:</h3>
+                
+                <div class="place-card" onclick="updateMap(this, 'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d53534.112991269154!2d-58.64735357787356!3d-33.00688470392408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20y%20Hotel%20El%20Tag%C3%BCe!3m2!1d-33.043273299999996!2d-58.6207937!4m5!1s0x95b008c5e3240503%3A0x13e6f8606d9e96e7!2sguaychu!3m2!1d-32.970991999999995!2d-58.592397999999996!5e0!3m2!1ses-419!2sar!4v1769046938070!5m2!1ses-419!2sar')" style="background-image: url('img/cercanias/temas.jpg');">
+                    <div class="place-overlay">
+                        <span><i class="fa-solid fa-water"></i> Termas</span>
+                        <small>Ver en mapa</small>
+                    </div>
+                </div>
+
+                <div class="place-card" onclick="updateMap(this, 'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d861952.522392849!2d-59.08748360874355!3d-32.445880143658236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20y%20Hotel%20El%20Tag%C3%BCe!3m2!1d-33.043273299999996!2d-58.6207937!4m5!1s0x95ae1be8452c473d%3A0x3a513efd67ddd707!2sParque%20Nacional%20El%20Palmar%2C%20Kil%C3%B3metro%2C%20Ubajay%2C%20Entre%20R%C3%ADos!3m2!1d-31.8543085!2d-58.3194309!5e0!3m2!1ses-419!2sar!4v1769046985459!5m2!1ses-419!2sar')" style="background-image: url('img/cercanias/palmar.jpg');">
+                    <div class="place-overlay">
+                        <span><i class="fa-solid fa-tree"></i> Palmar</span>
+                        <small>Ver en mapa</small>
+                    </div>
+                </div>
+
+                <div class="place-card" onclick="updateMap(this, 'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d26761.128750098156!2d-58.591416651985355!3d-33.02641307645667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20y%20Hotel%20El%20Tag%C3%BCe!3m2!1d-33.043273299999996!2d-58.6207937!4m5!1s0x95baa82ffeff2129%3A0xd794a87cef095cb1!2sCors%C3%B3dromo%20Jose%20Luis%20Gestro%2C%20Maestra%20Piccini%201100%2C%20E2820%20Gualeguaych%C3%BA%2C%20Entre%20R%C3%ADos!3m2!1d-33.0175737!2d-58.520038299999996!5e0!3m2!1ses-419!2sar!4v1769046964335!5m2!1ses-419!2sar')" style="background-image: url('img/cercanias/carnaval.png');">
+                    <div class="place-overlay">
+                        <span><i class="fa-solid fa-mask"></i> Carnaval</span>
+                        <small>Ver en mapa</small>
+                    </div>
+                </div>
+                
+                <button class="btn-text mt-20" onclick="resetMap()" style="margin-top: 20px; display:inline-block;">
+                    <i class="fa-solid fa-rotate-left"></i> Volver a ubicación del Hotel
+                </button>
+            </div>
+        </div>
+        
+        <div class="location-map">
+            <div id="mapLoader" class="map-loader-overlay">
+                <img src="img/logo.svg" alt="Cargando..." class="loader-logo-small">
+            </div>
+
+            <iframe 
+                id="dynamicMap"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3344.501222738296!2d-58.62336862357091!3d-33.04326877677655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20%26%20Hotel%20El%20Tag%C3%BCe!5e0!3m2!1ses-419!2sar!4v1769046901040!5m2!1ses-419!2sar" 
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+            </iframe>
+        </div>
+    </section>
+
+    <footer class="footer-cta">
+        <div class="cta-overlay"></div>
+        <div class="cta-content">
+            <h2>Reserve su Estadía</h2>
+            <div class="contact-info">
+                <span><i class="fa-solid fa-phone"></i> +54 9 3446 493085</span>
+                <span><i class="fa-brands fa-whatsapp"></i> +54 9 3446 621925</span>
+            </div>
+            <p class="copyright">© 2026 Hotel El Tagüé</p>
+        </div>
+    </footer>
+
+    <div class="floating-actions">
+        <a href="tel:+5493446493085" class="action-bubble dark"><i class="fa-solid fa-phone"></i></a>
+        <a href="https://wa.me/5493446621925" class="action-bubble green"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+
+    <script src="js/main.js"></script>
+
+</body>
+</html>

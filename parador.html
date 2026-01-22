@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parador El Tagüé | Gualeguaychú</title>
+    
+    <link rel="stylesheet" href="css/parador.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="page-loader">
+        <div class="loader-content">
+            <img src="img/logo.svg" alt="Cargando..." class="loader-logo">
+        </div>
+    </div>
+
+    <header class="header" id="mainHeader">
+        <div class="header-inner">
+            <a href="index.html" class="logo-link">
+                <img src="img/logo.svg" alt="El Tagüé" class="logo-img">
+            </a>
+
+            <button class="hamburger" id="hamburgerBtn" aria-label="Menú">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <nav class="nav-menu" id="navMenu">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Inicio</a></li>
+                    <li><a href="#horarios" class="nav-link">Horarios Bus</a></li>
+                    <li><a href="#gastronomia" class="nav-link">Gastronomía</a></li>
+                    <li><a href="#servicios" class="nav-link">Servicios</a></li>
+                    <li><a href="#contacto" class="nav-btn-highlight">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-badge">Abierto 24hs</span>
+            <h1>Parador & Terminal<br>El Tagüé</h1>
+            <p>Punto estratégico en Ruta 14. Gastronomía regional y boletería oficial.</p>
+            <div class="hero-actions">
+                <a href="#horarios" class="btn-primary">Ver Salidas de Bus</a>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <section id="horarios" class="section-container">
+            <div class="section-header text-center">
+                <span class="section-subtitle">Terminal Km 55</span>
+                <h2 class="section-title">Horarios de Ómnibus</h2>
+                <div class="divider-small"></div>
+                <p class="section-desc">Venta de pasajes en ventanilla. Los horarios pueden variar según el tráfico en ruta.</p>
+            </div>
+
+            <div class="schedules-grid">
+                
+                <div class="schedule-card">
+                    <div class="company-logo-area">
+                        <img src="img/parador/flecha bus.jpeg" alt="Flecha Bus">
+                    </div>
+                    <div class="company-header header-flecha">
+                        <h3>Nacionales</h3>
+                    </div>
+                    <ul class="departure-list">
+                        <li><div class="dep-time">08:30</div><div class="dep-info"><strong>Retiro (Bs. As.)</strong><span>Cama / Semi</span></div></li>
+                        <li><div class="dep-time">14:15</div><div class="dep-info"><strong>Córdoba</strong><span>Directo</span></div></li>
+                        <li><div class="dep-time">23:00</div><div class="dep-info"><strong>Gualeguaychú</strong><span>Conexión</span></div></li>
+                    </ul>
+                </div>
+
+                <div class="schedule-card">
+                    <div class="company-logo-area">
+                        <img src="img/parador/crucero del norte.jpeg" alt="Crucero del Norte">
+                    </div>
+                    <div class="company-header header-crucero">
+                        <h3>Litoral</h3>
+                    </div>
+                    <ul class="departure-list">
+                        <li><div class="dep-time">09:00</div><div class="dep-info"><strong>Puerto Iguazú</strong><span>Premium</span></div></li>
+                        <li><div class="dep-time">13:30</div><div class="dep-info"><strong>Posadas</strong><span>Semi-Cama</span></div></li>
+                    </ul>
+                </div>
+
+                <div class="schedule-card">
+                    <div class="company-logo-area">
+                        <img src="img/parador/via bariloche.jpeg" alt="Via Bariloche">
+                    </div>
+                    <div class="company-header header-via">
+                        <h3>Sur del País</h3>
+                    </div>
+                    <ul class="departure-list">
+                        <li><div class="dep-time">16:00</div><div class="dep-info"><strong>Neuquén</strong><span>Ejecutivo</span></div></li>
+                        <li><div class="dep-time">23:50</div><div class="dep-info"><strong>Mar del Plata</strong><span>Temporada</span></div></li>
+                    </ul>
+                </div>
+
+                <div class="schedule-card">
+                    <div class="company-logo-area">
+                        <img src="img/parador/rio uruguay.jpg" alt="Río Uruguay">
+                    </div>
+                    <div class="company-header header-rio">
+                        <h3>Regional</h3>
+                    </div>
+                    <ul class="departure-list">
+                        <li><div class="dep-time">07:00</div><div class="dep-info"><strong>C. del Uruguay</strong><span>Frecuente</span></div></li>
+                        <li><div class="dep-time">17:30</div><div class="dep-info"><strong>Federación</strong><span>Turístico</span></div></li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="gastronomia" class="section-container bg-light">
+            <div class="section-header text-center">
+                <span class="section-subtitle">Restaurante</span>
+                <h2 class="section-title">Parada Gastronómica</h2>
+                <div class="divider-small"></div>
+                <p class="section-desc">Platos caseros, minutas y cafetería disponibles las 24 horas.</p>
+            </div>
+
+            <div class="food-grid">
+                <article class="food-card">
+                    <div class="food-img">
+                        <img src="img/hotel/fideos.jpeg" alt="Pastas Caseras">
+                    </div>
+                    <div class="food-body">
+                        <h3>Pastas Caseras</h3>
+                        <p>Tallarines y ravioles con salsas a elección.</p>
+                    </div>
+                </article>
+
+                <article class="food-card featured-food">
+                    <span class="badge-food">Recomendado</span>
+                    <div class="food-img">
+                        <img src="img/hotel/bife con papas.jpeg" alt="Parrilla">
+                    </div>
+                    <div class="food-body">
+                        <h3>Parrilla al Asador</h3>
+                        <p>Bife de chorizo, asado y cortes premium.</p>
+                    </div>
+                </article>
+
+                <article class="food-card">
+                    <div class="food-img">
+                        <img src="img/hotel/ravioles.jpeg" alt="Minutas">
+                    </div>
+                    <div class="food-body">
+                        <h3>Minutas Rápidas</h3>
+                        <p>Milanesas, supremas y opciones rápidas.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="servicios" class="section-container">
+            <div class="services-grid">
+                <div class="service-item"><i class="fa-solid fa-wifi"></i><h4>Wi-Fi Gratis</h4></div>
+                <div class="service-item"><i class="fa-solid fa-shower"></i><h4>Duchas</h4></div>
+                <div class="service-item"><i class="fa-solid fa-gift"></i><h4>Regionales</h4></div>
+                <div class="service-item"><i class="fa-solid fa-square-parking"></i><h4>Parking</h4></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-cta" id="contacto">
+        <div class="cta-overlay"></div>
+        <div class="cta-content">
+            <h2>Visite el Parador</h2>
+            <div class="contact-info">
+                <span><i class="fa-solid fa-location-dot"></i> Ruta 14, Km 55</span>
+                <span><i class="fa-brands fa-whatsapp"></i> +54 9 3446 621925</span>
+            </div>
+            <p class="copyright">© 2026 Parador El Tagüé</p>
+        </div>
+    </footer>
+
+    <div class="floating-actions">
+        <a href="tel:+5493446493085" class="action-bubble dark"><i class="fa-solid fa-phone"></i></a>
+        <a href="https://wa.me/5493446621925" class="action-bubble green"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
