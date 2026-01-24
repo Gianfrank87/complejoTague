@@ -111,6 +111,15 @@ function formatDate(dateString) {
     return `${day}/${month}/${year}`;
 }
 
+function timeToMinutes(timeStr) {
+    if (!timeStr) return 0;
+    const parts = timeStr.split(':');
+    if (parts.length < 2) return 0;
+    const hours = parseInt(parts[0], 10);
+    const minutes = parseInt(parts[1], 10);
+    return (hours * 60) + minutes;
+}
+
 function consultarHabitacion(tipo) {
     const message = `Hola! Estoy interesado en reservar la habitación *${tipo}*.`;
     window.open(`https://wa.me/5493446621925?text=${message}`, '_blank');
@@ -187,13 +196,14 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
 });
 
-// --- LÓGICA DE MAPA (HOTEL) ---
+// --- LÓGICA DE MAPA ---
 function updateMap(cardElement, mapUrl) {
     const mapFrame = document.getElementById('dynamicMap');
     const mapLoader = document.getElementById('mapLoader');
     if (!mapFrame) return;
 
-    document.querySelectorAll('.place-card').forEach(card => card.classList.remove('active'));
+    document.querySelectorAll('.amenity-item.interactive-card, .place-card').forEach(card => card.classList.remove('active'));
+    
     if(cardElement) cardElement.classList.add('active');
 
     if (mapLoader) mapLoader.classList.add('map-loader-active');
@@ -206,25 +216,9 @@ function updateMap(cardElement, mapUrl) {
     }, 200);
 }
 
-function resetMap() {
-    const initialUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3344.501222738296!2d-58.62336862357091!3d-33.04326877677655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20%26%20Hotel%20El%20Tag%C3%BCe!5e0!3m2!1ses-419!2sar!4v1769046901040!5m2!1ses-419!2sar"; 
-    document.querySelectorAll('.place-card').forEach(card => card.classList.remove('active'));
-    const mapFrame = document.getElementById('dynamicMap');
-    const mapLoader = document.getElementById('mapLoader');
-    
-    if (mapLoader) mapLoader.classList.add('map-loader-active');
-    
-    setTimeout(() => {
-        if(mapFrame) mapFrame.src = initialUrl;
-        if(mapFrame) mapFrame.onload = () => {
-            if (mapLoader) mapLoader.classList.remove('map-loader-active');
-        };
-    }, 200);
-}
-
 
 // =========================================================
-//   SISTEMA DE HORARIOS (CONECTADO A GOOGLE SHEETS API)
+//   SISTEMA DE HORARIOS (MODO DEMO / SIN API KEY)
 // =========================================================
 
 async function initScheduleSystem() {
@@ -236,72 +230,73 @@ async function initScheduleSystem() {
 
     if (!container || !btnPrev || !btnNext) return;
 
-    // ⬇️⬇️⬇️ TUS CREDENCIALES (PÉGALAS AQUÍ) ⬇️⬇️⬇️
-    
-    const SPREADSHEET_ID = '1fxR9b-Ju1nGUAb2Ku6qhMD94j8lp_OZcJNzAaVmF5mM'; 
-    const API_KEY = 'API KEY ACA';   
-
-    // ⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️
-
-    const RANGE = 'Hoja 1!A:P'; 
-    const API_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+    // API DESACTIVADA PARA DEMO
+    // const SPREADSHEET_ID = '1fxR9b-Ju1nGUAb2Ku6qhMD94j8lp_OZcJNzAaVmF5mM'; 
+    // const API_KEY = 'TU_CLAVE_AQUI';   
     
     let dayOffset = 0; 
     const maxOffset = 6;
     let companiesData = []; 
 
-    // --- ANIMACIÓN "FANTASMA" (SUTIL) ---
+    // --- DATOS SIMULADOS PARA LAS 4 EMPRESAS ---
+    const MOCK_DATA = {
+        values: [
+            ["header", "logo", "region", "hora", "destino", "info", "dias"], // Header ignorado
+            
+            // FLECHA BUS
+            ["Flecha Bus", "img/parador/flecha bus.svg", "A Buenos Aires", "08:30", "Retiro", "Semi Cama", "lun-mie-vie", "", "", "", "", "", "", "", "", "https://www.flechabus.com.ar"],
+            ["Flecha Bus", "img/parador/flecha bus.svg", "A Buenos Aires", "01:15", "Retiro", "Cama Ejecutivo", "todos", "", "", "", "", "", "", "", "", "https://www.flechabus.com.ar"],
+            ["Flecha Bus", "img/parador/flecha bus.svg", "Al Norte", "15:45", "Concordia", "Directo", "todos", "", "", "", "", "", "", "", "", "https://www.flechabus.com.ar"],
+
+            // RÁPIDO TATA (Agregado estilo 'header-rapido')
+            ["Rápido Tata", "img/parador/rapido tata.svg", "A Buenos Aires", "09:00", "Retiro", "Semicama", "todos", "", "", "", "", "", "", "", "", "https://www.rapidotata.com.ar"],
+            ["Rápido Tata", "img/parador/rapido tata.svg", "Al Litoral", "22:30", "Gualeguay", "Coche Cama", "vie-sab-dom", "", "", "", "", "", "", "", "", ""],
+
+            // CRUCERO DEL NORTE
+            ["Crucero del Norte", "img/parador/crucero del norte.svg", "Noreste", "02:45", "Foz do Iguazú", "Servicio Premium", "mar-jue-sab", "", "", "", "", "", "", "", "", "https://www.crucerodelnorte.com.ar"],
+            ["Crucero del Norte", "img/parador/crucero del norte.svg", "A Posadas", "16:00", "Posadas", "Cama Total", "todos", "", "", "", "", "", "", "", "", ""],
+
+            // VÍA BARILOCHE
+            ["Vía Bariloche", "img/parador/via bariloche.svg", "Al Sur", "19:15", "Bariloche", "Cena a bordo", "todos", "", "", "", "", "", "", "", "", "https://www.viabariloche.com.ar"],
+            ["Vía Bariloche", "img/parador/via bariloche.svg", "A la Costa", "23:00", "Mar del Plata", "Temporada Alta", "vie-sab", "", "", "", "", "", "", "", "", ""]
+        ]
+    };
+
     const changeDayWithAnimation = (newOffset) => {
-        // 1. Efecto Fade Out (baja opacidad)
         container.classList.add('is-loading');
-        
-        // 2. Pausa breve (300ms) para cambio suave
         setTimeout(() => {
             dayOffset = newOffset;
-            render(); // Dibuja los nuevos datos
-            
-            // 3. Efecto Fade In (vuelve a opacidad normal)
+            render(); 
             container.classList.remove('is-loading');
         }, 300); 
     };
 
-    // --- CARGAR DATOS (INICIAL) ---
     async function loadData() {
         try {
-            // Loader simple de texto para la primera carga
             container.innerHTML = '<div style="width:100%; text-align:center; padding:40px; color:#999;">Cargando horarios...</div>';
             
-            const response = await fetch(API_URL);
-            const result = await response.json(); 
-            
-            if (result.error) {
-                console.error('Error API:', result.error);
-                container.innerHTML = `<div style="text-align:center; padding:40px; color:red;">Verificar configuración de API.</div>`;
-                return;
-            }
+            setTimeout(() => {
+                const result = MOCK_DATA; // Usamos datos simulados
 
-            if (result.values && result.values.length > 0) {
-                companiesData = parseAPIData(result.values);
-                render();
-            } else {
-                container.innerHTML = '<div style="text-align:center; padding:40px;">No hay horarios disponibles.</div>';
-            }
+                if (result.values && result.values.length > 0) {
+                    companiesData = parseAPIData(result.values);
+                    render();
+                } else {
+                    container.innerHTML = '<div style="text-align:center; padding:40px;">No hay horarios disponibles.</div>';
+                }
+            }, 500);
 
         } catch (error) {
-            console.error('Error de red:', error);
+            console.error('Error:', error);
             container.innerHTML = '<div style="text-align:center; padding:40px; color:red;">Error de conexión.</div>';
         }
     }
 
-    // --- PARSEADOR DE DATOS ---
     function parseAPIData(rows) {
         const companiesMap = {};
 
-        // Empezamos de 1 para saltar encabezados
         for (let i = 1; i < rows.length; i++) {
             const row = rows[i];
-            
-            // Verificamos datos mínimos
             if (!row[0] || row.length < 6) continue;
 
             const empresaName = row[0];
@@ -311,7 +306,7 @@ async function initScheduleSystem() {
             const dest = row[4];
             const info = row[5];
             const rawDays = row[6] ? row[6] : ""; 
-            const webUrl = row[15] ? row[15] : ""; // Columna P (índice 15)
+            const webUrl = row[15] ? row[15] : ""; 
 
             if (!companiesMap[empresaName]) {
                 companiesMap[empresaName] = {
@@ -334,7 +329,6 @@ async function initScheduleSystem() {
         return Object.values(companiesMap);
     }
 
-    // --- UTILIDADES ---
     function parseDays(dayString) {
         if (!dayString || dayString.trim() === '') return []; 
         if (dayString.toLowerCase().includes('todos')) return 'all';
@@ -350,14 +344,14 @@ async function initScheduleSystem() {
 
     function getHeaderClass(name) {
         const n = name.toLowerCase();
-        if (n.includes('flecha')) return 'header-flecha';
-        if (n.includes('crucero')) return 'header-crucero';
-        if (n.includes('via')) return 'header-via';
-        if (n.includes('rio') || n.includes('río')) return 'header-rio';
-        return 'header-flecha';
+        // Asignamos colores según el nombre
+        if (n.includes('flecha')) return 'header-flecha'; // Amarillo
+        if (n.includes('crucero')) return 'header-crucero'; // Naranja
+        if (n.includes('via')) return 'header-via'; // Azul
+        if (n.includes('rapido') || n.includes('tata')) return 'header-rapido'; // Rojo
+        return 'header-flecha'; 
     }
 
-    // --- RENDERIZADO ---
     const render = () => {
         container.innerHTML = '';
         const displayDate = new Date();
@@ -383,7 +377,8 @@ async function initScheduleSystem() {
             const validDepartures = company.departures.filter(dep => 
                 dep.days === 'all' || dep.days.includes(dayOfWeek)
             );
-            validDepartures.sort((a, b) => a.time.localeCompare(b.time));
+            
+            validDepartures.sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
 
             if (validDepartures.length > 0) {
                 hasServices = true;
@@ -394,7 +389,6 @@ async function initScheduleSystem() {
                     </li>
                 `).join('');
 
-                // Crear botón "Ir al sitio" si hay URL
                 let overlayHtml = '';
                 if (company.web && company.web.startsWith('http')) {
                     overlayHtml = `
@@ -433,7 +427,6 @@ async function initScheduleSystem() {
         }
     };
 
-    // --- EVENTOS DE BOTONES (Con Animación) ---
     btnPrev.addEventListener('click', () => { 
         if(dayOffset > 0) changeDayWithAnimation(dayOffset - 1); 
     });
@@ -442,6 +435,5 @@ async function initScheduleSystem() {
         if(dayOffset < maxOffset) changeDayWithAnimation(dayOffset + 1); 
     });
 
-    // Iniciar el sistema
     loadData();
 }

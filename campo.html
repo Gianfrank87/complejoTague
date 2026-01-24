@@ -38,7 +38,7 @@
                     <li><a href="#interiores" class="nav-link">Casas</a></li>
                     <li><a href="#exteriores" class="nav-link">El Campo</a></li>
                     <li><a href="#lifestyle" class="nav-link">Momentos</a></li>
-                    <li><a href="#experiencias" class="nav-link">Experiencias</a></li>
+                    <li><a href="#ubicacion" class="nav-link">Ubicación</a></li>
                     <li><a href="https://wa.me/5493446621925" class="nav-btn-highlight">Reservar</a></li>
                 </ul>
             </nav>
@@ -50,7 +50,7 @@
         <div class="hero-content">
             <span class="hero-badge">150 Hectáreas de Naturaleza</span>
             <h1>Complejo de Campo<br>El Tagüé</h1>
-            <p>Casas independientes a orillas del río Uruguay. Privacidad absoluta.</p>
+            <p>Apart hotel totalmente equipados a metros del Parador y Hotel El Tagüé</p>
             
             <div class="hero-actions">
                 <a href="#video-tour" class="btn-primary"><i class="fa-solid fa-play"></i> Ver Video</a>
@@ -182,34 +182,73 @@
         </div>
     </section>
 
-    <section id="experiencias" class="section-container bg-pattern">
+    <section id="ubicacion" class="section-container bg-pattern">
         <div class="container">
             <div class="section-header text-center reveal">
-                <h2 class="section-title">Actividades Incluidas</h2>
+                <span class="section-subtitle">Gualeguaychú y Alrededores</span>
+                <h2 class="section-title">Puntos de Interés</h2>
+                <p class="section-desc">Seleccione un lugar para ver su ubicación en el mapa.</p>
             </div>
             
             <div class="amenities-grid">
-                <div class="amenity-item reveal">
-                    <i class="fa-solid fa-fish-fins"></i>
-                    <h4>Pesca Deportiva</h4>
-                    <p>Dorado y surubí desde la costa.</p>
+                
+                <div class="amenity-item photo-card reveal" 
+                     onclick="updateMap(this, 'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d53534.112991269154!2d-58.64735357787356!3d-33.00688470392408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20%26%20Hotel%20El%20Tag%C3%BCe%2C%20RN14%20KM%2055%2C%20E2820%20Gualeguaych%C3%BA%2C%20Entre%20R%C3%ADos!3m2!1d-33.043273299999996!2d-58.6207937!4m5!1s0x95b008c5e3240503%3A0x13e6f8606d9e96e7!2sTermas%20del%20Guaych%C3%BA%2C%20RN14%2064%2C%20E2820%20Gualeguaych%C3%BA%2C%20Entre%20R%C3%ADos!3m2!1d-32.970991999999995!2d-58.592397999999996!5e0!3m2!1ses-419!2sar!4v1769297016614!5m2!1ses-419!2sar')"
+                     style="background-image: url('img/cercanias/termasCompleto.png');">
+                    <div class="card-overlay-content">
+                        <i class="fa-solid fa-person-swimming"></i>
+                        <h4>Termas de Guaychú</h4>
+                        <p>7km</p>
+                    </div>
                 </div>
-                <div class="amenity-item reveal">
-                    <i class="fa-solid fa-sailboat"></i>
-                    <h4>Náutica</h4>
-                    <p>Kayak y paddle surf a disposición.</p>
+                
+                <div class="amenity-item photo-card reveal" 
+                     onclick="updateMap(this, 'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d53522.85020425616!2d-58.59281827768941!3d-33.02543701711949!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20%26%20Hotel%20El%20Tag%C3%BCe%2C%20RN14%20KM%2055%2C%20E2820%20Gualeguaych%C3%BA%2C%20Entre%20R%C3%ADos!3m2!1d-33.043273299999996!2d-58.6207937!4m5!1s0x95baa9c43ee61823%3A0x5fcceb143f0ee635!2sTermas%20del%20Gualeguaych%C3%BA%2C%20Ruta%20prov.%20N%C2%BA42%2C%20Km%2022.5%2C%20E2820%20Gualeguaych%C3%BA%2C%20Entre%20R%C3%ADos!3m2!1d-33.016777399999995!2d-58.4814588!5e0!3m2!1ses-419!2sar!4v1769297056782!5m2!1ses-419!2sar')"
+                     style="background-image: url('img/cercanias/almeida.jpg');">
+                    <div class="card-overlay-content">
+                        <i class="fa-solid fa-water-ladder"></i>
+                        <h4>Termas Gualeguaychú</h4>
+                        <p>12km</p>
+                    </div>
                 </div>
-                <div class="amenity-item reveal">
-                    <i class="fa-solid fa-horse"></i>
-                    <h4>Cabalgatas</h4>
-                    <p>Paseos guiados por el predio.</p>
+                
+                <div class="amenity-item photo-card reveal" 
+                     onclick="updateMap(this, 'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d107033.61248577209!2d-58.58863870107527!3d-33.03538895535419!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20%26%20Hotel%20El%20Tag%C3%BCe%2C%20RN14%20KM%2055%2C%20E2820%20Gualeguaych%C3%BA%2C%20Entre%20R%C3%ADos!3m2!1d-33.043273299999996!2d-58.6207937!4m5!1s0x95baa99fa91c127b%3A0x9b5e8a7e98e71fc3!2s%C3%91andubaysal%2C%20Costa%20Uruguay%20Norte%2C%20E2820%20Gualeguaych%C3%BA%2C%20Entre%20R%C3%ADos!3m2!1d-33.063461499999995!2d-58.390704899999996!5e0!3m2!1ses-419!2sar!4v1769297099279!5m2!1ses-419!2sar')"
+                     style="background-image: url('img/cercanias/ñandu.webp');">
+                    <div class="card-overlay-content">
+                        <i class="fa-solid fa-umbrella-beach"></i>
+                        <h4>Ñandubaysal</h4>
+                        <p>30km</p>
+                    </div>
                 </div>
-                <div class="amenity-item reveal">
-                    <i class="fa-solid fa-binoculars"></i>
-                    <h4>Avistaje</h4>
-                    <p>Más de 80 especies de aves.</p>
+                
+                <div class="amenity-item photo-card reveal" 
+                     onclick="updateMap(this, 'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d53522.28243305237!2d-58.60559802768013!3d-33.02637201778481!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20%26%20Hotel%20El%20Tag%C3%BCe%2C%20RN14%20KM%2055%2C%20E2820%20Gualeguaych%C3%BA%2C%20Entre%20R%C3%ADos!3m2!1d-33.043273299999996!2d-58.6207937!4m5!1s0x95baa834aac9ed81%3A0x160a5b85594dd957!2sPaseo%20Costanera%20Sur%2C%20Gualeguaych%C3%BA%2C%20Entre%20R%C3%ADos!3m2!1d-33.0203196!2d-58.508706999999994!5e0!3m2!1ses-419!2sar!4v1769297135429!5m2!1ses-419!2sar')"
+                     style="background-image: url('img/cercanias/playapuente.jpg');">
+                    <div class="card-overlay-content">
+                        <i class="fa-solid fa-water"></i>
+                        <h4>Playas Costanera</h4>
+                        <p>10km</p>
+                    </div>
                 </div>
             </div>
+
+            <div class="map-container-wide reveal">
+                <div id="mapLoader" class="map-loader-overlay">
+                    <img src="img/logo.svg" alt="Cargando..." class="loader-logo-small">
+                </div>
+
+                <button class="btn-map-reset" onclick="updateMap(null, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3344.501222738296!2d-58.623368623570926!3d-33.04326877677655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20%26%20Hotel%20El%20Tag%C3%BCe!5e0!3m2!1ses-419!2sar!4v1769297170484!5m2!1ses-419!2sar')">
+                    <i class="fa-solid fa-rotate-left"></i> Volver al Campo
+                </button>
+
+                <iframe 
+                    id="dynamicMap"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3344.501222738296!2d-58.623368623570926!3d-33.04326877677655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20%26%20Hotel%20El%20Tag%C3%BCe!5e0!3m2!1ses-419!2sar!4v1769297170484!5m2!1ses-419!2sar" 
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+
         </div>
     </section>
 
@@ -221,12 +260,19 @@
             </div>
 
             <div class="rooms-grid">
+                
                 <article class="room-card reveal">
                     <div class="card-body text-center" style="padding: 40px 20px;">
                         <i class="fa-regular fa-calendar-check" style="font-size: 2.5rem; color:var(--accent); margin-bottom: 20px;"></i>
                         <h3>Fin de Semana</h3>
                         <p>Viernes a Domingo. Ideal para escapadas.</p>
-                        <p style="font-weight: 700; color: var(--primary);">Check-in: Vie 15hs <br> Check-out: Dom 18hs</p>
+                        
+                        <div style="background: #fdfbf7; padding: 15px; border-radius: 8px; border: 1px dashed var(--accent); margin-top: 15px;">
+                            <p style="font-weight: 700; color: var(--primary); margin:0;">Check-in: 15hs <br> Check-out: 10hs</p>
+                            <p style="font-size: 0.9em; color: #666; margin-top: 8px;">
+                                <i class="fa-solid fa-clock-rotate-left"></i> Opcional: Late Check-out (18hs)
+                            </p>
+                        </div>
                     </div>
                 </article>
 
@@ -243,8 +289,8 @@
                 <article class="room-card reveal">
                     <div class="card-body text-center" style="padding: 40px 20px;">
                         <i class="fa-solid fa-champagne-glasses" style="font-size: 2.5rem; color:var(--accent); margin-bottom: 20px;"></i>
-                        <h3>Eventos</h3>
-                        <p>Bodas íntimas y retiros corporativos.</p>
+                        <h3>Salón de Eventos</h3>
+                        <p>Consulte tarifario para su evento</p>
                         <p style="font-weight: 700; color: var(--primary);">Consultar capacidad</p>
                     </div>
                 </article>

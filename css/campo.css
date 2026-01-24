@@ -1,5 +1,5 @@
 /* =========================================
-   CAMPO.CSS - CORREGIDO Y MEJORADO
+   CAMPO.CSS - FINAL (Diseño Original + Mapa Abajo)
    ========================================= */
 
 :root {
@@ -87,7 +87,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .btn-outline { background: transparent; border: 1px solid #FFF; color: #FFF; padding: 12px 30px; border-radius: 50px; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; display: inline-block; }
 .btn-outline:hover { background: #FFF; color: var(--primary); }
 
-/* VIDEO SECTON (CINE) */
+/* VIDEO SECTON */
 .video-section {
     background: #111;
     padding: 0;
@@ -101,7 +101,6 @@ ul { list-style: none; padding: 0; margin: 0; }
     padding-bottom: 56.25%; /* 16:9 */
     height: 0;
     overflow: hidden;
-    /* Sombras para dar efecto de "sobre el hero" si se quiere, o plano */
 }
 .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
@@ -125,12 +124,82 @@ ul { list-style: none; padding: 0; margin: 0; }
 .features-list i { color: var(--accent); }
 .img-main { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); }
 
-/* AMENITIES */
+/* AMENITIES (Interiores) */
 .amenities-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .amenity-item { background: #FFF; padding: 25px; text-align: center; border-radius: var(--radius); box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
 .amenity-item i { font-size: 2rem; color: var(--accent); margin-bottom: 10px; }
 .amenity-item h4 { color: var(--primary); margin-bottom: 5px; font-size: 1rem; }
 .amenity-item p { color: #888; font-size: 0.8rem; }
+
+/* --- NUEVO: ESTILOS PARA TARJETAS INTERACTIVAS Y MAPA --- */
+
+/* Hacemos que las tarjetas de amenities sean botones */
+.amenity-item.interactive-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent; 
+}
+.amenity-item.interactive-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+.amenity-item.interactive-card.active {
+    border-color: var(--accent);
+    background-color: #fffbf5;
+}
+.amenity-item.interactive-card.active i {
+    transform: scale(1.2);
+}
+
+/* Contenedor del Mapa Ancho (Debajo de la grilla) */
+.map-container-wide {
+    width: 100%;
+    height: 450px;
+    background: #E5E5E5;
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 40px;
+    box-shadow: var(--shadow);
+    position: relative;
+    border: 1px solid #ddd;
+}
+.map-loader-overlay {
+    position: absolute;
+    inset: 0;
+    background: #FAFAF5;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+}
+.map-loader-active { opacity: 1; visibility: visible; }
+.loader-logo-small { width: 80px; animation: pulse 1s infinite; }
+
+/* Botón flotante dentro del mapa */
+.btn-map-reset {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #FFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    color: var(--primary);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+    font-size: 0.8rem;
+    z-index: 5;
+    transition: 0.3s;
+}
+.btn-map-reset:hover {
+    background: var(--primary);
+    color: #FFF;
+}
+/* -------------------------------------------------------- */
 
 /* GALLERY GRID */
 .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
@@ -139,7 +208,6 @@ ul { list-style: none; padding: 0; margin: 0; }
 .gallery-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
 .gallery-card:hover img { transform: scale(1.05); }
 
-/* ANIMACIÓN SUAVE VER MÁS */
 .gallery-hidden { 
     display: none; 
     opacity: 0; 
@@ -160,10 +228,9 @@ ul { list-style: none; padding: 0; margin: 0; }
 .marquee-content {
     display: flex;
     gap: 20px;
-    animation: scroll 40s linear infinite; /* Animación continua */
+    animation: scroll 40s linear infinite; 
     width: max-content;
 }
-/* Al pasar el mouse, pausa para ver la foto */
 .marquee-content:hover { animation-play-state: paused; }
 
 .marquee-item {
@@ -183,7 +250,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 @keyframes scroll {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); } /* Se mueve hasta la mitad (donde se repite) */
+    100% { transform: translateX(-50%); } 
 }
 
 /* MODALIDADES */
@@ -200,15 +267,14 @@ ul { list-style: none; padding: 0; margin: 0; }
 .contact-info i { color: var(--accent); margin-right: 8px; }
 .copyright { font-size: 0.8rem; opacity: 0.6; margin-top: 40px; }
 
-/* MODAL CORREGIDO */
+/* MODAL */
 .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
-/* Cambio clave para que no estire las fotos: max-width auto */
 .modal-content { 
     max-width: 90vw; 
     max-height: 85vh; 
     width: auto; 
     height: auto; 
-    object-fit: contain; /* Mantiene la proporción */
+    object-fit: contain;
     border-radius: 4px;
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
@@ -224,6 +290,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
 .reveal.active { opacity: 1; transform: translateY(0); }
 
+/* MEDIA QUERIES (DESKTOP) */
 @media (min-width: 1024px) {
     :root { --header-h: 110px; }
     .logo-img { height: 170px; }
@@ -245,6 +312,76 @@ ul { list-style: none; padding: 0; margin: 0; }
     .rooms-grid { grid-template-columns: repeat(3, 1fr); }
     .contact-info { flex-direction: row; justify-content: center; gap: 40px; }
     .video-section { padding-bottom: 60px; }
-    /* Ajuste marquee desktop */
+    
     .marquee-item { width: 350px; height: 450px; }
+}
+
+/* --- NUEVO ESTILO: TARJETAS CON FOTO --- */
+
+.amenity-item.photo-card {
+    padding: 0; /* Quitamos el padding original */
+    background-size: cover;
+    background-position: center;
+    border: none;
+    height: 200px; /* Altura fija para que se vean bien las fotos */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+/* Capa oscura para que se lea el texto */
+.amenity-item.photo-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5); /* Oscuridad del fondo */
+    transition: 0.3s;
+    z-index: 1;
+}
+
+/* Efecto al pasar el mouse (se aclara un poco y sube) */
+.amenity-item.photo-card:hover {
+    transform: translateY(-5px);
+}
+.amenity-item.photo-card:hover::before {
+    background: rgba(0,0,0,0.3); /* Se ve más la foto */
+}
+
+/* Estado ACTIVO (Cuando clickeas) */
+.amenity-item.photo-card.active {
+    border: 3px solid var(--accent); /* Borde dorado */
+}
+
+/* El contenido (Texto e Icono) */
+.card-overlay-content {
+    position: relative;
+    z-index: 2; /* Por encima de la capa oscura */
+    color: #FFF;
+    text-align: center;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.8); /* Sombra negra a las letras */
+}
+
+.card-overlay-content i {
+    font-size: 2.5rem;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: block;
+}
+
+.card-overlay-content h4 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: #FFF; /* Forzamos blanco */
+    font-weight: 700;
+}
+
+.card-overlay-content p {
+    color: #DDD;
+    font-size: 0.9rem;
+    font-weight: 400;
 }
