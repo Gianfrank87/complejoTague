@@ -167,7 +167,7 @@ function openModal(img) {
     
     modal.style.display = 'flex';
     modalImg.src = img.src;
-    if(caption) caption.textContent = img.alt;
+    if(caption) caption.textContent = '';
     document.body.style.overflow = 'hidden';
 }
 
@@ -189,7 +189,7 @@ function navigateImage(direction) {
     const modalImg = document.getElementById('modalImage');
     const caption = document.getElementById('modalCaption');
     if (modalImg) modalImg.src = img.src;
-    if (caption) caption.textContent = img.alt;
+    if (caption) caption.textContent = '';
 }
 
 document.addEventListener('keydown', (e) => {
