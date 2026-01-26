@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 2. PRELOADER GLOBAL ---
+    // --- 2. PRELOADER ---
     const pageLoader = document.getElementById('page-loader');
     if (pageLoader) {
         setTimeout(() => {
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', revealOnScroll);
     revealOnScroll();
 
-    // --- 5. LÓGICA DE BARRA DE RESERVA (HOTEL) ---
+    // --- 5. LOGICA DEL HOTEL ---
     const checkinInput = document.getElementById('checkin');
     const checkoutInput = document.getElementById('checkout');
     const guestsSelect = document.getElementById('guests');
@@ -94,16 +94,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 6. SISTEMA DE HORARIOS DINÁMICOS (PARADOR) ---
-    if (document.getElementById('dynamicSchedules')) {
+    // --- 6. SISTEMA DE HORARIOS ---
+    if (document.getElementById('gridContainer') || document.getElementById('listContainer')) {
         initScheduleSystem();
     }
 
-}); // --- FIN DOMContentLoaded ---
+}); 
 
 
 // ==========================================
-//           FUNCIONES GLOBALES
+//          FUNCIONES GLOBALES
 // ==========================================
 
 function formatDate(dateString) {
@@ -111,329 +111,366 @@ function formatDate(dateString) {
     return `${day}/${month}/${year}`;
 }
 
-function timeToMinutes(timeStr) {
-    if (!timeStr) return 0;
-    const parts = timeStr.split(':');
-    if (parts.length < 2) return 0;
-    const hours = parseInt(parts[0], 10);
-    const minutes = parseInt(parts[1], 10);
-    return (hours * 60) + minutes;
-}
-
-function consultarHabitacion(tipo) {
-    const message = `Hola! Estoy interesado en reservar la habitación *${tipo}*.`;
-    window.open(`https://wa.me/5493446621925?text=${message}`, '_blank');
-}
-
-// --- LÓGICA DE GALERÍA SUAVE (CAMPO) ---
 function toggleGallery(galleryId, btn) {
     const gallery = document.getElementById('gallery-' + galleryId);
     if (!gallery) return;
-    
     const hiddenItems = gallery.querySelectorAll('.gallery-hidden');
     const isExpanded = btn.classList.contains('expanded');
-
     if (!isExpanded) {
-        hiddenItems.forEach(item => {
-            item.style.display = 'block';
-            setTimeout(() => { item.classList.add('fade-in'); }, 10);
-        });
+        hiddenItems.forEach(item => { item.style.display = 'block'; setTimeout(() => { item.classList.add('fade-in'); }, 10); });
         btn.innerHTML = 'Ver menos fotos <i class="fa-solid fa-chevron-up"></i>';
         btn.classList.add('expanded');
     } else {
-        hiddenItems.forEach(item => {
-            item.classList.remove('fade-in');
-            setTimeout(() => { item.style.display = 'none'; }, 300);
-        });
+        hiddenItems.forEach(item => { item.classList.remove('fade-in'); setTimeout(() => { item.style.display = 'none'; }, 300); });
         btn.innerHTML = 'Ver más fotos <i class="fa-solid fa-chevron-down"></i>';
         btn.classList.remove('expanded');
         gallery.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 }
 
-// --- LÓGICA DE MODAL DE IMÁGENES ---
 let currentImages = [];
 let currentIndex = 0;
-
 function openModal(img) {
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
     const caption = document.getElementById('modalCaption');
     if (!modal || !modalImg) return;
-
     const gallery = img.closest('.gallery-grid') || img.closest('.marquee-content'); 
     currentImages = gallery ? Array.from(gallery.querySelectorAll('img')) : [img];
     currentIndex = currentImages.indexOf(img);
-    
     modal.style.display = 'flex';
     modalImg.src = img.src;
-    if(caption) caption.textContent = '';
+    if(caption) caption.textContent = img.alt;
     document.body.style.overflow = 'hidden';
 }
-
 function closeModal() {
     const modal = document.getElementById('imageModal');
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
+    if (modal) { modal.style.display = 'none'; document.body.style.overflow = 'auto'; }
 }
-
 function navigateImage(direction) {
     if (currentImages.length === 0) return;
     currentIndex += direction;
     if (currentIndex < 0) currentIndex = currentImages.length - 1;
     if (currentIndex >= currentImages.length) currentIndex = 0;
-    
     const img = currentImages[currentIndex];
     const modalImg = document.getElementById('modalImage');
-    const caption = document.getElementById('modalCaption');
     if (modalImg) modalImg.src = img.src;
-    if (caption) caption.textContent = '';
 }
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
-});
-
-// --- LÓGICA DE MAPA ---
 function updateMap(cardElement, mapUrl) {
     const mapFrame = document.getElementById('dynamicMap');
-    const mapLoader = document.getElementById('mapLoader');
     if (!mapFrame) return;
-
-    document.querySelectorAll('.amenity-item.interactive-card, .place-card').forEach(card => card.classList.remove('active'));
-    
+    document.querySelectorAll('.place-card').forEach(card => card.classList.remove('active'));
     if(cardElement) cardElement.classList.add('active');
-
-    if (mapLoader) mapLoader.classList.add('map-loader-active');
-
-    setTimeout(() => {
-        mapFrame.src = mapUrl;
-        mapFrame.onload = () => {
-            if (mapLoader) mapLoader.classList.remove('map-loader-active');
-        };
-    }, 200);
+    setTimeout(() => { mapFrame.src = mapUrl; }, 200);
 }
 
 
 // =========================================================
-//   SISTEMA DE HORARIOS (MODO DEMO / SIN API KEY)
+//   SISTEMA DE HORARIOS HÍBRIDO (GRID / LIST)
 // =========================================================
 
 async function initScheduleSystem() {
-    const container = document.getElementById('dynamicSchedules');
-    const btnPrev = document.getElementById('btnPrevDay');
-    const btnNext = document.getElementById('btnNextDay');
-    const labelDayName = document.getElementById('dayName');
-    const labelDayDate = document.getElementById('dayDate');
+    const gridContainer = document.getElementById('gridContainer');
+    const listContainer = document.getElementById('listContainer');
+    const listScrollArea = document.getElementById('listScrollArea');
+    const btnPrev = document.getElementById('btnPrevView');
+    const btnNext = document.getElementById('btnNextView');
+    const viewNameLabel = document.getElementById('viewName');
+    const searchInput = document.getElementById('destinationInput');
+    const suggestionsList = document.getElementById('suggestionsList');
 
-    if (!container || !btnPrev || !btnNext) return;
+    if (!gridContainer || !listContainer) return;
 
-    // API DESACTIVADA PARA DEMO
-    // const SPREADSHEET_ID = '1fxR9b-Ju1nGUAb2Ku6qhMD94j8lp_OZcJNzAaVmF5mM'; 
-    // const API_KEY = 'TU_CLAVE_AQUI';   
-    
-    let dayOffset = 0; 
-    const maxOffset = 6;
-    let companiesData = []; 
-
-    // --- DATOS SIMULADOS PARA LAS 4 EMPRESAS ---
-    const MOCK_DATA = {
-        values: [
-            ["header", "logo", "region", "hora", "destino", "info", "dias"], // Header ignorado
-            
-            // FLECHA BUS
-            ["Flecha Bus", "img/parador/flecha bus.svg", "A Buenos Aires", "08:30", "Retiro", "Semi Cama", "lun-mie-vie", "", "", "", "", "", "", "", "", "https://www.flechabus.com.ar"],
-            ["Flecha Bus", "img/parador/flecha bus.svg", "A Buenos Aires", "01:15", "Retiro", "Cama Ejecutivo", "todos", "", "", "", "", "", "", "", "", "https://www.flechabus.com.ar"],
-            ["Flecha Bus", "img/parador/flecha bus.svg", "Al Norte", "15:45", "Concordia", "Directo", "todos", "", "", "", "", "", "", "", "", "https://www.flechabus.com.ar"],
-
-            // RÁPIDO TATA (Agregado estilo 'header-rapido')
-            ["Rápido Tata", "img/parador/rapido tata.svg", "A Buenos Aires", "09:00", "Retiro", "Semicama", "todos", "", "", "", "", "", "", "", "", "https://www.rapidotata.com.ar"],
-            ["Rápido Tata", "img/parador/rapido tata.svg", "Al Litoral", "22:30", "Gualeguay", "Coche Cama", "vie-sab-dom", "", "", "", "", "", "", "", "", ""],
-
-            // CRUCERO DEL NORTE
-            ["Crucero del Norte", "img/parador/crucero del norte.svg", "Noreste", "02:45", "Foz do Iguazú", "Servicio Premium", "mar-jue-sab", "", "", "", "", "", "", "", "", "https://www.crucerodelnorte.com.ar"],
-            ["Crucero del Norte", "img/parador/crucero del norte.svg", "A Posadas", "16:00", "Posadas", "Cama Total", "todos", "", "", "", "", "", "", "", "", ""],
-
-            // VÍA BARILOCHE
-            ["Vía Bariloche", "img/parador/via bariloche.svg", "Al Sur", "19:15", "Bariloche", "Cena a bordo", "todos", "", "", "", "", "", "", "", "", "https://www.viabariloche.com.ar"],
-            ["Vía Bariloche", "img/parador/via bariloche.svg", "A la Costa", "23:00", "Mar del Plata", "Temporada Alta", "vie-sab", "", "", "", "", "", "", "", "", ""]
-        ]
+    // --- 1. CONFIGURACIÓN ---
+    const logoMapList = {
+        "via bariloche": "img/logos/via bariloche.jpg",
+        "flecha bus": "img/logos/flecha bus.png",
+        "crucero del norte": "img/logos/crucero del norte.png",
+        "rapido tata": "img/logos/rapido tata.png",
+        "rápido tata": "img/logos/rapido tata.png"
     };
 
-    const changeDayWithAnimation = (newOffset) => {
-        container.classList.add('is-loading');
-        setTimeout(() => {
-            dayOffset = newOffset;
-            render(); 
-            container.classList.remove('is-loading');
-        }, 300); 
-    };
+    const mainCompaniesConfig = [
+        { name: "Via Bariloche", headerClass: "header-via", region: "Vía Bariloche", logoSvg: "img/parador/via bariloche.svg", borderClass: "border-via" },
+        { name: "Flecha Bus", headerClass: "header-flecha", region: "Flecha Bus", logoSvg: "img/parador/flecha bus.svg", borderClass: "border-flecha" },
+        { name: "Rapido Tata", headerClass: "header-rapido", region: "Rápido Tata", logoSvg: "img/parador/rapido tata.svg", borderClass: "border-rapido" },
+        { name: "Crucero del Norte", headerClass: "header-crucero", region: "Crucero del Norte", logoSvg: "img/parador/crucero del norte.svg", borderClass: "border-crucero" }
+    ];
 
-    async function loadData() {
-        try {
-            container.innerHTML = '<div style="width:100%; text-align:center; padding:40px; color:#999;">Cargando horarios...</div>';
+    // --- 2. DATOS DE LOS VIAJES ---
+    const allTrips = [
+        // VIA BARILOCHE
+        { empresa: "Via Bariloche", time: "04:35", dest: "Retiro", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        { empresa: "Via Bariloche", time: "05:30", dest: "Retiro", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        { empresa: "Via Bariloche", time: "07:35", dest: "Retiro", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        { empresa: "Via Bariloche", time: "09:50", dest: "Retiro", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        { empresa: "Via Bariloche", time: "10:25", dest: "Retiro", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        
+        { empresa: "Via Bariloche", time: "04:35", dest: "Mar del Plata", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        
+        { empresa: "Via Bariloche", time: "00:00", dest: "Posadas", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        { empresa: "Via Bariloche", time: "00:40", dest: "Posadas", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        { empresa: "Via Bariloche", time: "17:35", dest: "Posadas", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        { empresa: "Via Bariloche", time: "21:00", dest: "Posadas", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        { empresa: "Via Bariloche", time: "23:05", dest: "Posadas", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        
+        { empresa: "Via Bariloche", time: "00:00", dest: "Puerto Iguazú", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        { empresa: "Via Bariloche", time: "00:40", dest: "Puerto Iguazú", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        { empresa: "Via Bariloche", time: "17:35", dest: "Puerto Iguazú", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+        { empresa: "Via Bariloche", time: "21:00", dest: "Puerto Iguazú", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
+
+        // RAPIDO TATA
+        { empresa: "Rapido Tata", time: "19:40", dest: "Roque Sáenz Peña", info: "Cama / Semi", web: "https://www.rapidotata.com.ar" },
+        { empresa: "Rapido Tata", time: "19:40", dest: "Mercedes", info: "Cama / Semi", web: "https://www.rapidotata.com.ar" },
+        { empresa: "Rapido Tata", time: "19:40", dest: "Resistencia", info: "Cama / Semi", web: "https://www.rapidotata.com.ar" },
+        { empresa: "Rapido Tata", time: "19:40", dest: "Miraflores", info: "Cama / Semi", web: "https://www.rapidotata.com.ar" },
+
+        // FLECHA BUS
+        { empresa: "Flecha Bus", time: "14:00", dest: "Porto Alegre (Brasil)", info: "Cama / Semi", web: "https://www.flechabus.com.ar" },
+        { empresa: "Flecha Bus", time: "14:00", dest: "Florianópolis (Brasil)", info: "Cama / Semi", web: "https://www.flechabus.com.ar" },
+        { empresa: "Flecha Bus", time: "14:00", dest: "Camboriú (Brasil)", info: "Cama / Semi", web: "https://www.flechabus.com.ar" },
+
+        // CRUCERO DEL NORTE
+        { empresa: "Crucero del Norte", time: "20:30", dest: "Eldorado", info: "Cama / Semi", web: "https://www.crucerodelnorte.com.ar" },
+        { empresa: "Crucero del Norte", time: "20:30", dest: "Posadas", info: "Cama / Semi", web: "https://www.crucerodelnorte.com.ar" },
+        { empresa: "Crucero del Norte", time: "20:30", dest: "Puerto Iguazú", info: "Cama / Semi", web: "https://www.crucerodelnorte.com.ar" }
+    ];
+
+    // --- 3. AUTOCOMPLETADO PERSONALIZADO ---
+    function setupAutocomplete() {
+        if(!searchInput || !suggestionsList) return;
+        const destinations = [...new Set(allTrips.map(t => t.dest))].sort();
+
+        searchInput.addEventListener('input', function() {
+            const val = this.value.toLowerCase();
+            suggestionsList.innerHTML = ''; 
             
-            setTimeout(() => {
-                const result = MOCK_DATA; // Usamos datos simulados
-
-                if (result.values && result.values.length > 0) {
-                    companiesData = parseAPIData(result.values);
-                    render();
-                } else {
-                    container.innerHTML = '<div style="text-align:center; padding:40px;">No hay horarios disponibles.</div>';
-                }
-            }, 500);
-
-        } catch (error) {
-            console.error('Error:', error);
-            container.innerHTML = '<div style="text-align:center; padding:40px; color:red;">Error de conexión.</div>';
-        }
-    }
-
-    function parseAPIData(rows) {
-        const companiesMap = {};
-
-        for (let i = 1; i < rows.length; i++) {
-            const row = rows[i];
-            if (!row[0] || row.length < 6) continue;
-
-            const empresaName = row[0];
-            const logoPath = row[1];
-            const region = row[2];
-            const time = row[3];
-            const dest = row[4];
-            const info = row[5];
-            const rawDays = row[6] ? row[6] : ""; 
-            const webUrl = row[15] ? row[15] : ""; 
-
-            if (!companiesMap[empresaName]) {
-                companiesMap[empresaName] = {
-                    name: empresaName,
-                    logo: logoPath,   
-                    headerClass: getHeaderClass(empresaName), 
-                    region: region,
-                    web: webUrl,
-                    departures: []
-                };
+            if (val.length === 0) {
+                suggestionsList.classList.add('hidden');
+                applyFilter(''); 
+                return;
             }
 
-            const daysParsed = parseDays(rawDays);
-            if (daysParsed === 'all' || daysParsed.length > 0) {
-                companiesMap[empresaName].departures.push({
-                    time: time, dest: dest, info: info, days: daysParsed
+            const matches = destinations.filter(dest => dest.toLowerCase().includes(val));
+
+            if (matches.length > 0) {
+                suggestionsList.classList.remove('hidden');
+                matches.forEach(dest => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${dest}`;
+                    li.addEventListener('click', () => {
+                        searchInput.value = dest;
+                        suggestionsList.classList.add('hidden');
+                        applyFilter(dest);
+                    });
+                    suggestionsList.appendChild(li);
                 });
+            } else {
+                suggestionsList.classList.add('hidden');
             }
-        }
-        return Object.values(companiesMap);
-    }
-
-    function parseDays(dayString) {
-        if (!dayString || dayString.trim() === '') return []; 
-        if (dayString.toLowerCase().includes('todos')) return 'all';
-        const map = { 'dom':0, 'lun':1, 'mar':2, 'mie':3, 'mié':3, 'jue':4, 'vie':5, 'sab':6, 'sáb':6 };
-        const result = [];
-        const cleanParts = dayString.toLowerCase().split('-'); 
-        cleanParts.forEach(d => {
-            const code = d.trim().substring(0, 3);
-            if (map.hasOwnProperty(code)) result.push(map[code]);
+            applyFilter(val);
         });
-        return result; 
+
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !suggestionsList.contains(e.target)) {
+                suggestionsList.classList.add('hidden');
+            }
+        });
     }
 
-    function getHeaderClass(name) {
-        const n = name.toLowerCase();
-        // Asignamos colores según el nombre
-        if (n.includes('flecha')) return 'header-flecha'; // Amarillo
-        if (n.includes('crucero')) return 'header-crucero'; // Naranja
-        if (n.includes('via')) return 'header-via'; // Azul
-        if (n.includes('rapido') || n.includes('tata')) return 'header-rapido'; // Rojo
-        return 'header-flecha'; 
+    // --- 4. CONTROLADOR DE VISTAS ---
+    let currentViewMode = 'grid'; 
+
+    function switchView() {
+        if(searchInput) searchInput.value = '';
+        if(suggestionsList) suggestionsList.classList.add('hidden');
+        applyFilter('');
+
+        if (currentViewMode === 'grid') {
+            currentViewMode = 'list';
+            viewNameLabel.textContent = "Todos los Horarios";
+            gridContainer.classList.add('hidden');
+            listContainer.classList.remove('hidden');
+            if(listScrollArea.children.length === 0) renderList();
+        } else {
+            currentViewMode = 'grid';
+            viewNameLabel.textContent = "Por Empresas";
+            listContainer.classList.add('hidden');
+            gridContainer.classList.remove('hidden');
+        }
     }
 
-    const render = () => {
-        container.innerHTML = '';
-        const displayDate = new Date();
-        displayDate.setDate(new Date().getDate() + dayOffset);
-        
-        const dayOfWeek = displayDate.getDay(); 
-        const dayStr = displayDate.toLocaleDateString('es-AR', { weekday: 'long' });
-        const dateStr = displayDate.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' });
+    // --- 5. FILTRO DE BÚSQUEDA ---
+    function applyFilter(searchTerm) {
+        const term = searchTerm.toLowerCase();
 
-        const dayCapitalized = dayStr.charAt(0).toUpperCase() + dayStr.slice(1);
-        if (dayOffset === 0) labelDayName.textContent = "Hoy";
-        else if (dayOffset === 1) labelDayName.textContent = "Mañana";
-        else labelDayName.textContent = dayCapitalized;
-        
-        labelDayDate.textContent = dateStr;
+        if (currentViewMode === 'grid') {
+            const cards = gridContainer.querySelectorAll('.schedule-card');
+            cards.forEach(card => {
+                const list = card.querySelector('.departure-list');
+                const items = list.querySelectorAll('li:not(.no-results-in-card)');
+                const noResultsMsg = card.querySelector('.no-results-in-card');
+                let visibleCount = 0;
 
-        btnPrev.classList.toggle('disabled', dayOffset === 0);
-        btnNext.classList.toggle('disabled', dayOffset >= maxOffset);
+                items.forEach(item => {
+                    const destText = item.querySelector('.dep-info strong').textContent.toLowerCase();
+                    if (destText.includes(term)) {
+                        item.classList.remove('hidden-item');
+                        visibleCount++;
+                    } else {
+                        item.classList.add('hidden-item');
+                    }
+                });
 
-        let hasServices = false;
-
-        companiesData.forEach(company => {
-            const validDepartures = company.departures.filter(dep => 
-                dep.days === 'all' || dep.days.includes(dayOfWeek)
-            );
-            
-            validDepartures.sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
-
-            if (validDepartures.length > 0) {
-                hasServices = true;
-                const listHtml = validDepartures.map(dep => `
-                    <li>
-                        <div class="dep-time">${dep.time}</div>
-                        <div class="dep-info"><strong>${dep.dest}</strong><span>${dep.info}</span></div>
-                    </li>
-                `).join('');
-
-                let overlayHtml = '';
-                if (company.web && company.web.startsWith('http')) {
-                    overlayHtml = `
-                        <a href="${company.web}" target="_blank" class="website-link-overlay">
-                            <span>Ir al sitio</span>
-                            <i class="fa-solid fa-arrow-right-long"></i>
-                        </a>
-                    `;
+                if (visibleCount === 0 && items.length > 0) {
+                    if(noResultsMsg) noResultsMsg.classList.remove('hidden');
+                } else {
+                    if(noResultsMsg) noResultsMsg.classList.add('hidden');
                 }
+            });
+        } else {
+            const rows = listScrollArea.querySelectorAll('.schedule-row');
+            const noResList = document.getElementById('noResultsList');
+            let visibleCount = 0;
 
-                const card = document.createElement('div');
-                card.className = 'schedule-card fade-in-up';
-                
-                card.innerHTML = `
-                    <div class="company-logo-area">
-                        <img src="${company.logo}" alt="${company.name}" onerror="this.src='img/logo.svg'">
-                        ${overlayHtml}
-                    </div>
-                    <div class="company-header ${company.headerClass}">
-                        <h3>${company.region}</h3>
-                    </div>
-                    <ul class="departure-list">
-                        ${listHtml}
-                    </ul>
-                `;
-                container.appendChild(card);
+            rows.forEach(row => {
+                const destText = row.querySelector('.row-dest').textContent.toLowerCase();
+                if (destText.includes(term)) {
+                    row.classList.remove('hidden-item');
+                    visibleCount++;
+                } else {
+                    row.classList.add('hidden-item');
+                }
+            });
+
+            // LOGICA MENSAJE NO RESULTADOS EN LISTA
+            if (visibleCount === 0) {
+                if(noResList) noResList.classList.remove('hidden');
+            } else {
+                if(noResList) noResList.classList.add('hidden');
             }
+        }
+    }
+
+    // --- 6. RENDERIZADO: MODO GRILLA ---
+    function renderGrid() {
+        gridContainer.innerHTML = '';
+        
+        mainCompaniesConfig.forEach(config => {
+            const trips = allTrips.filter(t => t.empresa === config.name);
+            trips.sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
+
+            const listItems = trips.map(t => `
+                <li>
+                    <div class="dep-time">${t.time}</div>
+                    <div class="dep-info"><strong>${t.dest}</strong><span>${t.info}</span></div>
+                </li>
+            `).join('');
+
+            const logoPath = config.logoSvg;
+            
+            const card = document.createElement('div');
+            card.className = 'schedule-card fade-in-up';
+            card.innerHTML = `
+                <div class="company-logo-area">
+                    <img src="${logoPath}" alt="${config.name}">
+                </div>
+                <div class="company-header ${config.headerClass}">
+                    <h3>${config.region}</h3>
+                </div>
+                <ul class="departure-list">
+                    ${listItems || '<li style="padding:20px; color:#999;">Sin servicios</li>'}
+                    <li class="no-results-in-card hidden">
+                        No encontrado en esta empresa.
+                        <small>Consulte en boletería</small>
+                    </li>
+                </ul>
+            `;
+            gridContainer.appendChild(card);
+        });
+    }
+
+    // --- 7. RENDERIZADO: MODO LISTA ---
+    function renderList() {
+        listScrollArea.innerHTML = '';
+        
+        const sortedTrips = [...allTrips].sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
+
+        sortedTrips.forEach((trip, index) => {
+            const logoPath = getLogoPathList(trip.empresa);
+            
+            // Determinar color de borde
+            const companyConfig = mainCompaniesConfig.find(c => c.name === trip.empresa);
+            const borderClass = companyConfig ? companyConfig.borderClass : '';
+
+            const btnLink = trip.web ? 
+                `<a href="${trip.web}" target="_blank" class="btn-ticket"><i class="fa-solid fa-ticket"></i> Comprar</a>` : 
+                `<span class="btn-ticket" style="background:#ccc; cursor:not-allowed;">Boletería</span>`;
+
+            const row = document.createElement('div');
+            row.className = `schedule-row ${borderClass}`;
+            if(index < 20) row.style.animationDelay = `${index * 0.03}s`;
+            row.classList.add('fade-in-up');
+            
+            row.innerHTML = `
+                <div class="row-logo">
+                    <img src="${logoPath}" alt="${trip.empresa}">
+                </div>
+                <div class="row-time">
+                    <span class="time-big">${trip.time}</span>
+                    <span class="time-label">Salida</span>
+                </div>
+                <div class="row-info">
+                    <strong class="row-dest">${trip.dest}</strong>
+                    <div class="row-meta">
+                        <span><i class="fa-solid fa-bus"></i> ${trip.empresa}</span>
+                        <span><i class="fa-solid fa-couch"></i> ${trip.info}</span>
+                    </div>
+                </div>
+                <div class="row-action">
+                    ${btnLink}
+                </div>
+            `;
+            listScrollArea.appendChild(row);
         });
 
-        if (!hasServices) {
-            container.innerHTML = `
-                <div style="width:100%; text-align:center; padding:40px; color:#888;">
-                    <i class="fa-solid fa-bus-simple" style="font-size: 2rem; margin-bottom:10px; opacity:0.5;"></i>
-                    <p>No hay servicios programados para esta fecha.</p>
-                </div>`;
-        }
-    };
+        // AGREGAMOS EL DIV DE "NO RESULTADOS" OCULTO AL FINAL
+        const noRes = document.createElement('div');
+        noRes.id = 'noResultsList';
+        noRes.className = 'no-results-list hidden';
+        noRes.innerHTML = `
+            <i class="fa-solid fa-road"></i>
+            <p>No se encontraron viajes para ese destino.</p>
+            <small>Intente con otro o consulte en boletería.</small>
+        `;
+        listScrollArea.appendChild(noRes);
+    }
 
-    btnPrev.addEventListener('click', () => { 
-        if(dayOffset > 0) changeDayWithAnimation(dayOffset - 1); 
-    });
+    // --- UTILS ---
+    function timeToMinutes(timeStr) {
+        if (!timeStr) return 0;
+        // Manejar formato "00hs" o "21 hs"
+        let cleanTime = timeStr.toLowerCase().replace('hs', '').replace(' ', '').trim();
+        // Si no tiene minutos (ej: "21"), agregar ":00"
+        if (!cleanTime.includes(':')) cleanTime += ':00';
+        
+        const [hours, minutes] = cleanTime.split(':').map(Number);
+        return (hours * 60) + (minutes || 0);
+    }
 
-    btnNext.addEventListener('click', () => { 
-        if(dayOffset < maxOffset) changeDayWithAnimation(dayOffset + 1); 
-    });
+    function getLogoPathList(companyName) {
+        const key = companyName.toLowerCase().trim();
+        return logoMapList[key] || "img/logo.svg";
+    }
 
-    loadData();
+    // --- EVENTOS ---
+    if(btnPrev) btnPrev.addEventListener('click', switchView);
+    if(btnNext) btnNext.addEventListener('click', switchView);
+
+    // Inicializar
+    setupAutocomplete();
+    renderGrid();
+    renderList(); 
 }

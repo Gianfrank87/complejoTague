@@ -35,7 +35,7 @@
             <nav class="nav-menu" id="navMenu">
                 <ul class="nav-list">
                     <li><a href="index.html" class="nav-link">Inicio</a></li>
-                    <li><a href="#horarios" class="nav-link">Horarios</a></li>
+                    <li><a href="#horarios" class="nav-link">Pasajes</a></li>
                     <li><a href="#gastronomia" class="nav-link">Resto & Café</a></li>
                     <li><a href="#regionales" class="nav-link">Regionales</a></li>
                     <li><a href="#ubicacion" class="nav-link">Ubicación</a></li>
@@ -64,65 +64,75 @@
                 <span class="section-subtitle">Terminal Km 55</span>
                 <h2 class="section-title">Horarios de Ómnibus</h2>
                 <div class="divider-small"></div>
-                <p class="section-desc">Seleccione una fecha para ver las salidas programadas.</p>
+                <p class="section-desc">Selecciona tu vista preferida y busca tu destino.</p>
             </div>
 
             <div class="date-navigator-container">
-                <button id="btnPrevDay" class="nav-arrow disabled" aria-label="Día anterior">
+                <button id="btnPrevView" class="nav-arrow" aria-label="Vista anterior">
                     <i class="fa-solid fa-chevron-left"></i>
                 </button>
                 
                 <div class="current-date-display">
-                    <span id="dayName">Hoy</span>
-                    <span id="dayDate">--/--</span>
+                    <span id="viewTitle" style="font-size: 0.8rem; color: #999; text-transform: uppercase; letter-spacing: 1px;">MODO DE VISTA</span>
+                    <span id="viewName" style="font-size: 1.1rem; font-weight: 700; color: var(--primary);">Por Empresas</span>
                 </div>
 
-                <button id="btnNextDay" class="nav-arrow" aria-label="Día siguiente">
+                <button id="btnNextView" class="nav-arrow" aria-label="Vista siguiente">
                     <i class="fa-solid fa-chevron-right"></i>
                 </button>
             </div>
 
-            <div id="dynamicSchedules" class="schedules-grid"></div>
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="destinationInput" class="search-input" placeholder="Escribe tu destino (ej: Retiro, Posadas)..." autocomplete="off">
+                <ul id="suggestionsList" class="suggestions-dropdown hidden"></ul>
+            </div>
+
+            <div id="gridContainer" class="schedules-grid">
+                </div>
+
+            <div id="listContainer" class="schedule-list-container hidden">
+                <div class="list-header-row">
+                    <span>Empresa</span>
+                    <span>Horario</span>
+                    <span style="text-align: center;">Destino</span>
+                    <span style="text-align: right;">Acción</span>
+                </div>
+                <div class="scrollable-area" id="listScrollArea">
+                    </div>
+            </div>
+
+            <div class="global-schedule-cta">
+                <div class="cta-text">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <p>¿No encontraste tu destino? Contamos con muchas más opciones en ventanilla.</p>
+                </div>
+                <a href="https://wa.me/5493446404337?text=Hola!%20Busco%20pasajes%20a..." target="_blank" class="btn-whatsapp-small">
+                    <i class="fa-brands fa-whatsapp"></i> Consultar Ahora
+                </a>
+            </div>
+
         </section>
 
         <section id="gastronomia" class="section-container bg-light">
             <div class="section-header text-center">
                 <span class="section-subtitle">Comedor abierto 24hs</span>
-                <h2 class="section-title">Disfruta de nuestros ricos platos de Elaboración Propia</h2>
+                <h2 class="section-title">Disfruta de nuestros ricos platos</h2>
                 <div class="divider-small"></div>
-                <p class="section-desc">Contamos con una variada carta con mas de 50 platos.</p>
             </div>
-
             <div class="food-grid">
                 <article class="food-card">
-                    <div class="food-img">
-                        <img src="img/hotel/desayunomedialunas.jpeg" alt="Cafetería y Desayunos">
-                    </div>
-                    <div class="food-body">
-                        <h3>Bar y Cafetería</h3>
-                        <p>Café de especialidad, facturas recién horneadas y tostados.</p>
-                    </div>
+                    <div class="food-img"><img src="img/hotel/desayunomedialunas.jpeg" alt="Cafetería"></div>
+                    <div class="food-body"><h3>Bar y Cafetería</h3><p>Café de especialidad y facturas.</p></div>
                 </article>
-
                 <article class="food-card featured-food">
                     <span class="badge-food">Recomendado</span>
-                    <div class="food-img">
-                        <img src="img/hotel/bife con papas.jpeg" alt="Parrilla y Minutas">
-                    </div>
-                    <div class="food-body">
-                        <h3>Minutas y Platos especiales</h3>
-                        <p>Bife de chorizo, milanesas a caballo y cortes al plato.</p>
-                    </div>
+                    <div class="food-img"><img src="img/hotel/bife con papas.jpeg" alt="Minutas"></div>
+                    <div class="food-body"><h3>Minutas</h3><p>Bife de chorizo y milanesas.</p></div>
                 </article>
-
                 <article class="food-card">
-                    <div class="food-img">
-                        <img src="img/hotel/fideos.jpeg" alt="Pastas Caseras">
-                    </div>
-                    <div class="food-body">
-                        <h3>Viandas para viajes</h3>
-                        <p>Pastas, guisos y menú del día con sabor a hogar.</p>
-                    </div>
+                    <div class="food-img"><img src="img/hotel/fideos.jpeg" alt="Pastas"></div>
+                    <div class="food-body"><h3>Viandas</h3><p>Pastas y menú del día.</p></div>
                 </article>
             </div>
         </section>
@@ -131,15 +141,13 @@
             <div class="regional-banner reveal">
                 <div class="regional-content">
                     <span class="section-subtitle">Tienda de Recuerdos</span>
-                    <h2 class="section-title">Productos Regionales de Primer Nivel</h2>
-                    <p>Llevate un pedacito de Entre Ríos. Ofrecemos una selección exclusiva de productos locales para regalar o disfrutar en el viaje.</p>
+                    <h2 class="section-title">Productos Regionales</h2>
+                    <p>Llevate un pedacito de Entre Ríos.</p>
                     <ul class="regional-list">
                         <li><i class="fa-solid fa-check"></i> Alfajores artesanales</li>
                         <li><i class="fa-solid fa-check"></i> Mates y bombillas</li>
-                        <li><i class="fa-solid fa-check"></i> Dulces en almíbar y mermeladas</li>
-                        <li><i class="fa-solid fa-check"></i> Artesanías en madera y cuero</li>
-                        <li><i class="fa-solid fa-check"></i> Artículos para el asador</li>
-                        <li><i class="fa-solid fa-check"></i> Artículos de campo</li>
+                        <li><i class="fa-solid fa-check"></i> Dulces en almíbar</li>
+                        <li><i class="fa-solid fa-check"></i> Artesanías</li>
                     </ul>
                 </div>
                 <div class="regional-image">
@@ -163,44 +171,25 @@
         </section>
 
         <section id="ubicacion" class="section-container">
-    
             <div class="location-card">
-                
                 <div class="location-text">
                     <span class="section-subtitle">Ruta 14 - Km 55</span>
                     <h2 class="section-title">Cómo Llegar</h2>
                     <div class="divider-small" style="margin: 15px 0;"></div>
-                    <p>
-                        Nos encontramos en un punto estratégico de fácil acceso en las puertas de Gualeguaychú.
-                        Contamos con estacionamiento exclusivo para vehículos particulares y de ómnibus
-                    </p>
-                    
                     <ul class="location-details">
                         <li><i class="fa-solid fa-location-dot"></i> <strong>Dirección:</strong> Ruta Nacional 14, Km 55.</li>
                         <li><i class="fa-solid fa-clock"></i> <strong>Atención:</strong> Abierto las 24 horas.</li>
-                        <li><i class="fa-solid fa-square-parking"></i> <strong>Parking:</strong> Gratuito y vigilado.</li>
+                        <li><i class="fa-solid fa-square-parking"></i> <strong>Parking:</strong> Gratuito.</li>
                     </ul>
-
                     <a href="https://maps.app.goo.gl/xkFL5eergVaTA5ym8" target="_blank" class="btn-primary" style="margin-top: 20px;">
                         <i class="fa-solid fa-location-arrow"></i> Ver en Google Maps
                     </a>
                 </div>
-
                 <div class="location-map-frame">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3344.501222738296!2d-58.62336862357091!3d-33.04326877677655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20%26%20Hotel%20El%20Tag%C3%BCe!5e0!3m2!1ses-419!2sar!4v1769280314769!5m2!1ses-419!2sar" 
-                        width="100%" 
-                        height="100%" 
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3344.501222738296!2d-58.62336862357091!3d-33.04326877677655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20%26%20Hotel%20El%20Tag%C3%BCe!5e0!3m2!1ses-419!2sar!4v1769280314769!5m2!1ses-419!2sar" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
-
             </div>
         </section>
-
     </main>
 
     <footer class="footer-cta" id="contacto">
