@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 2. PRELOADER ---
+    // --- 2. PRELOADER GLOBAL ---
     const pageLoader = document.getElementById('page-loader');
     if (pageLoader) {
         setTimeout(() => {
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', revealOnScroll);
     revealOnScroll();
 
-    // --- 5. LOGICA DEL HOTEL ---
+    // --- 5. LOGICA DE BARRA DE RESERVA (HOTEL) ---
     const checkinInput = document.getElementById('checkin');
     const checkoutInput = document.getElementById('checkout');
     const guestsSelect = document.getElementById('guests');
@@ -94,12 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 6. SISTEMA DE HORARIOS ---
+    // --- 6. SISTEMA DE HORARIOS (PARADOR) ---
     if (document.getElementById('gridContainer') || document.getElementById('listContainer')) {
         initScheduleSystem();
     }
 
-}); 
+}); // --- FIN DOMContentLoaded ---
 
 
 // ==========================================
@@ -111,59 +111,117 @@ function formatDate(dateString) {
     return `${day}/${month}/${year}`;
 }
 
+// RESTAURADO: Función para consultar habitación específica (Hotel)
+function consultarHabitacion(tipo) {
+    const message = `Hola! Estoy interesado en reservar la habitación *${tipo}*.`;
+    window.open(`https://wa.me/5493446621925?text=${message}`, '_blank');
+}
+
+// Lógica de Galería (Campo/Hotel)
 function toggleGallery(galleryId, btn) {
     const gallery = document.getElementById('gallery-' + galleryId);
     if (!gallery) return;
+    
     const hiddenItems = gallery.querySelectorAll('.gallery-hidden');
     const isExpanded = btn.classList.contains('expanded');
+
     if (!isExpanded) {
-        hiddenItems.forEach(item => { item.style.display = 'block'; setTimeout(() => { item.classList.add('fade-in'); }, 10); });
+        hiddenItems.forEach(item => {
+            item.style.display = 'block';
+            setTimeout(() => { item.classList.add('fade-in'); }, 10);
+        });
         btn.innerHTML = 'Ver menos fotos <i class="fa-solid fa-chevron-up"></i>';
         btn.classList.add('expanded');
     } else {
-        hiddenItems.forEach(item => { item.classList.remove('fade-in'); setTimeout(() => { item.style.display = 'none'; }, 300); });
+        hiddenItems.forEach(item => {
+            item.classList.remove('fade-in');
+            setTimeout(() => { item.style.display = 'none'; }, 300);
+        });
         btn.innerHTML = 'Ver más fotos <i class="fa-solid fa-chevron-down"></i>';
         btn.classList.remove('expanded');
         gallery.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 }
 
+// Modal de Imágenes
 let currentImages = [];
 let currentIndex = 0;
+
 function openModal(img) {
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
     const caption = document.getElementById('modalCaption');
     if (!modal || !modalImg) return;
+
     const gallery = img.closest('.gallery-grid') || img.closest('.marquee-content'); 
     currentImages = gallery ? Array.from(gallery.querySelectorAll('img')) : [img];
     currentIndex = currentImages.indexOf(img);
+    
     modal.style.display = 'flex';
     modalImg.src = img.src;
     if(caption) caption.textContent = img.alt;
     document.body.style.overflow = 'hidden';
 }
+
 function closeModal() {
     const modal = document.getElementById('imageModal');
-    if (modal) { modal.style.display = 'none'; document.body.style.overflow = 'auto'; }
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
 }
+
 function navigateImage(direction) {
     if (currentImages.length === 0) return;
     currentIndex += direction;
     if (currentIndex < 0) currentIndex = currentImages.length - 1;
     if (currentIndex >= currentImages.length) currentIndex = 0;
+    
     const img = currentImages[currentIndex];
     const modalImg = document.getElementById('modalImage');
+    const caption = document.getElementById('modalCaption'); // Agregado por seguridad
     if (modalImg) modalImg.src = img.src;
+    if (caption) caption.textContent = img.alt;
 }
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+});
+
+// Lógica de Mapa (Hotel)
 function updateMap(cardElement, mapUrl) {
     const mapFrame = document.getElementById('dynamicMap');
+    const mapLoader = document.getElementById('mapLoader'); // Recuperado loader
     if (!mapFrame) return;
+
     document.querySelectorAll('.place-card').forEach(card => card.classList.remove('active'));
     if(cardElement) cardElement.classList.add('active');
-    setTimeout(() => { mapFrame.src = mapUrl; }, 200);
+
+    if (mapLoader) mapLoader.classList.add('map-loader-active');
+
+    setTimeout(() => {
+        mapFrame.src = mapUrl;
+        mapFrame.onload = () => {
+            if (mapLoader) mapLoader.classList.remove('map-loader-active');
+        };
+    }, 200);
+}
+
+// RESTAURADO: Función para resetear mapa (Hotel)
+function resetMap() {
+    const initialUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3344.501222738296!2d-58.62336862357091!3d-33.04326877677655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20%26%20Hotel%20El%20Tag%C3%BCe!5e0!3m2!1ses-419!2sar!4v1769046901040!5m2!1ses-419!2sar"; 
+    document.querySelectorAll('.place-card').forEach(card => card.classList.remove('active'));
+    const mapFrame = document.getElementById('dynamicMap');
+    const mapLoader = document.getElementById('mapLoader');
+    
+    if (mapLoader) mapLoader.classList.add('map-loader-active');
+    
+    setTimeout(() => {
+        if(mapFrame) mapFrame.src = initialUrl;
+        if(mapFrame) mapFrame.onload = () => {
+            if (mapLoader) mapLoader.classList.remove('map-loader-active');
+        };
+    }, 200);
 }
 
 
@@ -345,7 +403,6 @@ async function initScheduleSystem() {
                 }
             });
 
-            // LOGICA MENSAJE NO RESULTADOS EN LISTA
             if (visibleCount === 0) {
                 if(noResList) noResList.classList.remove('hidden');
             } else {
@@ -371,11 +428,25 @@ async function initScheduleSystem() {
 
             const logoPath = config.logoSvg;
             
+            // LÓGICA DE OVERLAY CON ENLACE
+            const firstTrip = trips.length > 0 ? trips[0] : null;
+            const companyUrl = firstTrip ? firstTrip.web : "#";
+            let overlayHtml = '';
+            if (companyUrl && companyUrl.startsWith('http')) {
+                overlayHtml = `
+                    <a href="${companyUrl}" target="_blank" class="website-link-overlay">
+                        <span>Ir al sitio</span>
+                        <i class="fa-solid fa-arrow-right-long"></i>
+                    </a>
+                `;
+            }
+            
             const card = document.createElement('div');
             card.className = 'schedule-card fade-in-up';
             card.innerHTML = `
                 <div class="company-logo-area">
                     <img src="${logoPath}" alt="${config.name}">
+                    ${overlayHtml}
                 </div>
                 <div class="company-header ${config.headerClass}">
                     <h3>${config.region}</h3>
@@ -401,7 +472,6 @@ async function initScheduleSystem() {
         sortedTrips.forEach((trip, index) => {
             const logoPath = getLogoPathList(trip.empresa);
             
-            // Determinar color de borde
             const companyConfig = mainCompaniesConfig.find(c => c.name === trip.empresa);
             const borderClass = companyConfig ? companyConfig.borderClass : '';
 
@@ -436,7 +506,6 @@ async function initScheduleSystem() {
             listScrollArea.appendChild(row);
         });
 
-        // AGREGAMOS EL DIV DE "NO RESULTADOS" OCULTO AL FINAL
         const noRes = document.createElement('div');
         noRes.id = 'noResultsList';
         noRes.className = 'no-results-list hidden';
@@ -451,9 +520,7 @@ async function initScheduleSystem() {
     // --- UTILS ---
     function timeToMinutes(timeStr) {
         if (!timeStr) return 0;
-        // Manejar formato "00hs" o "21 hs"
         let cleanTime = timeStr.toLowerCase().replace('hs', '').replace(' ', '').trim();
-        // Si no tiene minutos (ej: "21"), agregar ":00"
         if (!cleanTime.includes(':')) cleanTime += ':00';
         
         const [hours, minutes] = cleanTime.split(':').map(Number);
