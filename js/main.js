@@ -455,7 +455,7 @@ async function initScheduleSystem() {
                     ${listItems || '<li style="padding:20px; color:#999;">Sin servicios</li>'}
                     <li class="no-results-in-card hidden">
                         No encontrado en esta empresa.
-                        <small>Consulte en boletería</small>
+                        <small>Consulte en mostrador</small>
                     </li>
                 </ul>
             `;
@@ -512,7 +512,7 @@ async function initScheduleSystem() {
         noRes.innerHTML = `
             <i class="fa-solid fa-road"></i>
             <p>No se encontraron viajes para ese destino.</p>
-            <small>Intente con otro o consulte en boletería.</small>
+            <small>Intente con otro o consulte en mostrador.</small>
         `;
         listScrollArea.appendChild(noRes);
     }
