@@ -1,5 +1,5 @@
 /* =========================================
-   PARADOR.CSS - VERSIÓN FINAL (CON SLIDE-IN RESTAURADO)
+   PARADOR.CSS - VERSIÓN FINAL INTEGRADA
    ========================================= */
 
 :root {
@@ -147,7 +147,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .schedules-grid { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; justify-content: center; }
 .schedule-card { background: #FFF; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); border: 1px solid #eee; flex: 1 1 250px; display: flex; flex-direction: column; }
 
-/* AREA LOGO Y OVERLAY (SLIDE IN RESTAURADO) */
+/* AREA LOGO Y OVERLAY */
 .company-logo-area { 
     background-color: #FFF; padding: 5px; height: 100px; 
     display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #eee; 
@@ -155,7 +155,6 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 .company-logo-area img { max-width: 95%; max-height: 100%; object-fit: contain; }
 
-/* ESTILOS DEL BOTÓN IR AL SITIO */
 .website-link-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(44, 62, 80, 0.95);
@@ -191,7 +190,6 @@ ul { list-style: none; padding: 0; margin: 0; }
    ========================================= */
 .schedule-list-container { width: 100%; border: 1px solid #eee; background: #fff; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.03); overflow: hidden; }
 
-/* CABECERA */
 .list-header-row {
     display: grid; 
     grid-template-columns: 110px 100px 1fr 120px; 
@@ -338,4 +336,286 @@ ul { list-style: none; padding: 0; margin: 0; }
     .schedules-grid { flex-wrap: wrap; }
     .global-schedule-cta { flex-direction: column; text-align: center; }
     .list-header-row { display: none; }
+}
+
+/* =========================================
+   ESTILOS: MOSAICO DE TRANSPORTE
+   ========================================= */
+
+/* Contenedor Grilla: 1 columna en móvil, 2 en escritorio */
+.transport-mosaic {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* Tarjeta Base */
+.transport-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    transition: transform 0.3s ease;
+}
+.transport-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+/* --- 1. ESTILO TARJETA ANCHA (COLECTIVOS) --- */
+/* Ocupa las 2 columnas en pantallas grandes */
+.wide-card {
+    grid-column: span 2;
+    display: flex;
+    min-height: 280px; /* Altura suficiente para la foto */
+}
+
+.transport-img-col {
+    flex: 0 0 40%; /* La imagen ocupa el 40% del ancho */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.transport-content-col {
+    flex: 1;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.floating-icon {
+    position: absolute;
+    top: 20px; left: 20px;
+    background: rgba(255,255,255,0.9);
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent); font-size: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.transport-content-col h3 {
+    font-family: var(--font-heading);
+    color: var(--primary);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--accent);
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Listas estilizadas */
+.transport-list li {
+    margin-bottom: 12px;
+    color: #555;
+    display: flex;
+    align-items: flex-start; /* Alinea ícono arriba si el texto es largo */
+    gap: 12px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+.transport-list li i {
+    color: var(--accent);
+    margin-top: 4px; /* Ajuste fino */
+}
+
+/* Resaltado para lo de Manifiestos */
+.highlight-item {
+    font-weight: 700;
+    color: var(--primary) !important;
+    background: #f4f4f4;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+}
+
+/* --- 2. ESTILO TARJETA COMPACTA (CAMIONEROS) --- */
+.compact-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.compact-header {
+    height: 140px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: flex-end; /* Texto abajo */
+    padding: 20px;
+}
+.overlay-compact {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+.compact-header h4 {
+    position: relative; z-index: 2;
+    color: #fff; font-size: 1.4rem; font-family: var(--font-heading);
+    margin: 0;
+}
+.icon-compact {
+    position: absolute; top: 15px; right: 15px;
+    color: #fff; font-size: 1.2rem;
+    background: var(--accent);
+    padding: 8px; border-radius: 8px;
+}
+
+.compact-body {
+    padding: 25px;
+    flex: 1; /* Ocupa el resto */
+    background: #fff;
+}
+
+/* --- 3. ESTILO BLOQUE CAJERO --- */
+.atm-block {
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    border-top: 4px solid #27ae60; /* Toque de color verde cajero */
+    text-align: center;
+    padding: 30px;
+}
+
+.atm-content-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.atm-logo-large {
+    max-width: 180px;
+    height: auto;
+}
+
+.atm-info h5 {
+    font-size: 1.1rem; color: var(--primary); margin-bottom: 5px;
+    text-transform: uppercase; letter-spacing: 1px;
+}
+.atm-info p { color: #777; font-size: 0.9rem; margin: 0; }
+
+.status-badge {
+    background: #e8f5e9; color: #27ae60;
+    padding: 4px 12px; border-radius: 50px;
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+}
+
+.btn-outline-atm {
+    margin-top: 10px;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 8px 25px; border-radius: 50px;
+    font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
+}
+.btn-outline-atm:hover { background: var(--primary); color: #fff; }
+
+/* --- RESPONSIVE MOBILE (Transporte) --- */
+@media (max-width: 768px) {
+    .transport-mosaic {
+        grid-template-columns: 1fr; /* Todo en 1 columna */
+    }
+    
+    .wide-card {
+        grid-column: span 1; /* Ya no ocupa 2 */
+        flex-direction: column; /* Foto arriba, texto abajo */
+    }
+    
+    .transport-img-col {
+        height: 200px; /* Altura fija en cel */
+    }
+}
+
+/* =========================================
+   ESTILOS NUEVOS: SLIDER DE REGIONALES (CORREGIDO)
+   ========================================= */
+
+/* El contenedor principal */
+.regional-slider-container {
+    flex: 1; /* Ocupa el espacio restante (igual que antes) */
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    
+    /* CLAVE: Esto fuerza a que tome toda la altura disponible del padre (.regional-banner) */
+    display: flex;
+    flex-direction: column; 
+    min-height: 350px; /* Altura mínima de seguridad para móviles */
+    height: auto; /* Se estira en desktop según el texto de al lado */
+}
+
+/* La "pista" ocupa absolutamente todo el espacio del contenedor */
+.slider-track {
+    display: flex;
+    width: 100%;
+    height: 100%; 
+    position: absolute; /* Lo sacamos del flujo para que no empuje */
+    top: 0;
+    left: 0;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Cada slide ocupa todo el alto y ancho */
+.slide {
+    min-width: 100%;
+    height: 100%;
+}
+
+/* La imagen se recorta para llenar el espacio sin deformarse (Cover) */
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Mantiene la proporción y recorta lo que sobra */
+    display: block;
+}
+
+/* Flechas (Sin cambios) */
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: 0.3s;
+    backdrop-filter: blur(5px);
+    z-index: 10;
+}
+.slider-arrow:hover { background: rgba(255, 255, 255, 0.8); color: var(--primary); }
+.slider-arrow.prev { left: 15px; }
+.slider-arrow.next { right: 15px; }
+
+/* Puntitos (Sin cambios) */
+.slider-dots {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+.dot {
+    width: 10px; height: 10px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.dot.active { background: #fff; transform: scale(1.2); }
+
+/* Ajuste Mobile: Mantiene una altura fija digna */
+@media (max-width: 768px) {
+    .regional-banner { flex-direction: column; }
+    /* En celular le damos una altura fija para que no salte */
+    .regional-slider-container { width: 100%; height: 300px; min-height: 300px; position: relative; }
+    .slider-track { position: absolute; height: 100%; }
 }

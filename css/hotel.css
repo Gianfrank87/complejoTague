@@ -1,5 +1,5 @@
 /* =========================================
-   HOTEL.CSS - FINAL & RESTRUCTURADO
+   HOTEL.CSS - FINAL (DISEÑO CLEAN)
    ========================================= */
 
 :root {
@@ -85,14 +85,14 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 /* --- HERO SECTION --- */
 .hero-section {
-    position: relative; height: 70vh; min-height: 500px;
-    /* Ruta Corregida */
+    position: relative; height: 75vh; min-height: 600px;
     background: url('../img/hotel/recepcion.jpg') center/cover no-repeat;
-    display: flex; align-items: center; justify-content: center; text-align: center;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
     z-index: 1; 
 }
 .hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
-.hero-content { position: relative; z-index: 2; color: #FFF; width: 90%; max-width: 800px; padding-bottom: 40px; }
+.hero-content { position: relative; z-index: 2; color: #FFF; width: 90%; max-width: 800px; padding-bottom: 80px; }
 
 .hero-badge { background: var(--accent); color: #FFF; padding: 5px 15px; border-radius: 50px; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 15px; display: inline-block; font-weight: 700; }
 .hero-content h1 { font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 15px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
@@ -101,25 +101,60 @@ ul { list-style: none; padding: 0; margin: 0; }
 .btn-primary { background: var(--accent); color: #FFF; padding: 12px 30px; border-radius: 50px; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; display: inline-block; }
 .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); }
 
-/* --- BOOKING BAR --- */
+/* --- BOOKING BAR (MEJORADA) --- */
 .booking-bar {
-    position: relative; 
-    width: 95%; max-width: 400px;
-    margin: 20px auto 0 auto; 
-    background: #FFF; padding: 20px; border-radius: var(--radius);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    display: flex; flex-direction: column; gap: 15px; 
-    z-index: 10;
+    position: absolute; 
+    bottom: -50px; 
+    width: 90%; max-width: 1000px;
+    background: #FFF; 
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    z-index: 20;
+    overflow: hidden;
+    padding: 25px;
+    border-top: 4px solid var(--accent);
 }
-.bb-item { display: flex; flex-direction: column; border-bottom: 1px solid #EEE; padding-bottom: 5px; text-align: center; }
-.bb-label { font-size: 0.7rem; text-transform: uppercase; color: #888; font-weight: 700; margin-bottom: 2px; }
-.bb-input { font-family: var(--font-heading); font-size: 1.1rem; color: var(--primary); border: none; background: transparent; text-align: center; outline: none; width: 100%; cursor: pointer; padding: 5px; }
-.bb-btn { background: var(--primary); color: #FFF; text-align: center; padding: 15px; border: none; border-radius: 4px; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; width: 100%; display: block; transition: 0.3s; cursor: pointer; }
-.bb-btn:hover { background: #1a252f; }
+
+.bb-header-mobile { display: block; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; font-size: 0.9rem; text-align: center; }
+
+.bb-form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.bb-item {
+    position: relative;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 10px 15px;
+    display: flex; align-items: center; gap: 10px;
+    transition: 0.3s;
+}
+.bb-item:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.1); }
+
+.bb-icon { color: var(--accent); font-size: 1.1rem; }
+
+.bb-input {
+    border: none; outline: none; background: transparent;
+    font-family: var(--font-body); font-size: 0.95rem;
+    color: #555; width: 100%;
+    cursor: pointer;
+}
+.bb-input::placeholder { color: #999; }
+
+.bb-btn {
+    background: var(--primary); color: #FFF;
+    border: none; border-radius: 8px;
+    font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;
+    padding: 15px; cursor: pointer; transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(44, 62, 80, 0.3);
+}
+.bb-btn:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212, 163, 115, 0.4); }
 
 /* --- SECTIONS --- */
 .section-container { padding: 80px 20px; max-width: 1200px; margin: 0 auto; }
-.intro-section { padding-top: 60px; padding-bottom: 60px; max-width: 1200px; margin: 0 auto; }
+.intro-section { padding-top: 100px; padding-bottom: 60px; max-width: 1200px; margin: 0 auto; }
 .bg-light { background: #FFF; border-top: 1px solid #EEE; border-bottom: 1px solid #EEE; }
 .bg-pattern { background-image: radial-gradient(#DDD 1px, transparent 1px); background-size: 20px 20px; }
 
@@ -128,6 +163,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .section-title { font-family: var(--font-heading); font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
 .section-desc { color: #666; margin-bottom: 40px; }
 .divider-small { width: 50px; height: 3px; background: var(--accent); margin: 15px auto; }
+.divider-left { width: 50px; height: 3px; background: var(--accent); margin: 15px 0; }
 
 .intro-grid { display: flex; flex-direction: column; gap: 40px; }
 .features-list { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 15px; }
@@ -136,6 +172,74 @@ ul { list-style: none; padding: 0; margin: 0; }
 .intro-images { position: relative; height: 300px; }
 .img-main { width: 85%; height: 85%; object-fit: cover; border-radius: var(--radius); }
 .img-small { position: absolute; bottom: 0; right: 0; width: 50%; height: 50%; object-fit: cover; border-radius: var(--radius); border: 5px solid #FAFAF5; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+
+/* --- NUEVA SECCIÓN: EVENTOS (Diseño Tarjeta Limpia) --- */
+.events-card {
+    background: #FFF;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column; /* Mobile first: columna */
+    border: 1px solid #EEE;
+}
+
+.events-content-col {
+    padding: 40px 30px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Alineado a la izquierda */
+    text-align: left;
+}
+
+.events-image-col {
+    flex: 1;
+    min-height: 250px;
+}
+.events-image-col img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.events-title {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.events-desc {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 25px;
+    max-width: 90%;
+}
+
+.events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+.events-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: var(--primary);
+    font-weight: 500;
+}
+.events-list li i {
+    color: var(--accent);
+    min-width: 25px;
+    text-align: center;
+}
+
+.mt-20 { margin-top: 20px; }
+
 
 /* --- ROOM CARDS --- */
 .rooms-grid { display: grid; gap: 30px; }
@@ -161,7 +265,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .amenity-item h4 { color: var(--primary); margin-bottom: 5px; font-size: 1rem; }
 .amenity-item p { color: #888; font-size: 0.8rem; }
 
-/* --- LOCATION & INTERACTIVE MAP --- */
+/* --- LOCATION --- */
 .location-section { display: flex; flex-direction: column; background: #2D3436; color: #FFF; }
 .location-content { padding: 60px 20px; flex: 1; }
 .location-content h2 { color: #FFF; font-family: var(--font-heading); margin-bottom: 15px; }
@@ -184,7 +288,6 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 /* --- FOOTER --- */
 .footer-cta { 
-    /* Ruta Corregida */
     background: url('../img/hotel/pileta2.jpg') center/cover; 
     padding: 80px 20px; text-align: center; color: #FFF; position: relative; 
 }
@@ -220,28 +323,26 @@ ul { list-style: none; padding: 0; margin: 0; }
 
     .hero-content h1 { font-size: 3.5rem; }
     
-    /* FIX BOOKING BAR DESKTOP */
-    .booking-bar {
-        position: absolute; bottom: -40px;
-        left: 0; right: 0; margin-left: auto; margin-right: auto;
-        width: 85%; max-width: 1000px;
-        flex-direction: row; align-items: center; 
-        padding: 30px 40px;
-    }
-    .bb-item { border: none; border-right: 1px solid #EEE; padding: 0 30px; flex: 1; text-align: left; }
-    .bb-item:last-of-type { border: none; }
-    .bb-input { text-align: left; font-size: 1.2rem; }
-    .bb-btn { width: auto; margin-left: auto; padding: 15px 40px; }
+    /* BOOKING BAR DESKTOP (Horizontal) */
+    .bb-header-mobile { display: none; }
+    .bb-form-row { flex-direction: row; align-items: center; gap: 20px; }
+    .bb-item { flex: 1; height: 50px; }
+    .bb-btn { width: auto; padding: 0 40px; height: 50px; }
 
     .intro-grid { flex-direction: row; align-items: center; padding: 0 40px; }
     .intro-text { flex: 1; text-align: left; }
     .intro-images { flex: 1; height: 450px; }
 
     .rooms-grid { grid-template-columns: repeat(3, 1fr); }
+    
+    /* Eventos Card Desktop (Split) */
+    .events-card { flex-direction: row; align-items: stretch; min-height: 400px; }
+    .events-content-col { flex: 1; padding: 50px; }
+    .events-image-col { flex: 1; }
+    
     .amenities-grid { grid-template-columns: repeat(4, 1fr); gap: 40px; }
 
     .location-section { flex-direction: row; height: 500px; }
-    /* Padding reducido para evitar scroll */
     .location-content { flex: 0 0 40%; min-width: 400px; padding: 30px 50px; overflow-y: hidden; }
     .location-map { flex: 1; height: 100%; }
     

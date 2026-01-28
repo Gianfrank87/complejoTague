@@ -36,6 +36,7 @@
                 <ul class="nav-list">
                     <li><a href="index.html" class="nav-link">Inicio</a></li>
                     <li><a href="#habitaciones" class="nav-link">Habitaciones</a></li>
+                    <li><a href="#eventos" class="nav-link">Eventos</a></li>
                     <li><a href="#servicios" class="nav-link">Servicios</a></li>
                     <li><a href="#ubicacion" class="nav-link">Ubicación</a></li>
                     <li><a href="#booking" class="nav-btn-highlight">Reservar</a></li>
@@ -56,26 +57,30 @@
         </div>
 
         <div class="booking-bar reveal" id="booking">
-            <div class="bb-item">
-                <label for="checkin" class="bb-label">Llegada</label>
-                <input type="date" id="checkin" class="bb-input">
+            <div class="bb-header-mobile">Reserve su Estadía</div>
+            <div class="bb-form-row">
+                <div class="bb-item">
+                    <i class="fa-regular fa-calendar bb-icon"></i>
+                    <input type="text" id="checkin" class="bb-input" placeholder="Fecha de Llegada" onfocus="(this.type='date')" onblur="(this.type='text')">
+                </div>
+                <div class="bb-item">
+                    <i class="fa-regular fa-calendar-check bb-icon"></i>
+                    <input type="text" id="checkout" class="bb-input" placeholder="Fecha de Salida" onfocus="(this.type='date')" onblur="(this.type='text')">
+                </div>
+                <div class="bb-item">
+                    <i class="fa-solid fa-user-group bb-icon"></i>
+                    <select id="guests" class="bb-input">
+                        <option value="" disabled selected>Huéspedes</option>
+                        <option value="1">1 Persona</option>
+                        <option value="2">2 Personas</option>
+                        <option value="3">3 Personas</option>
+                        <option value="4">4 Personas</option>
+                        <option value="5">5 Personas</option>
+                        <option value="+5">+ de 5</option>
+                    </select>
+                </div>
+                <button id="btnConsultar" class="bb-btn">CONSULTAR DISPONIBILIDAD</button>
             </div>
-            <div class="bb-item">
-                <label for="checkout" class="bb-label">Salida</label>
-                <input type="date" id="checkout" class="bb-input">
-            </div>
-            <div class="bb-item">
-                <label for="guests" class="bb-label">Personas</label>
-                <select id="guests" class="bb-input">
-                    <option value="1">1 Persona</option>
-                    <option value="2" selected>2 Personas</option>
-                    <option value="3">3 Personas</option>
-                    <option value="4">4 Personas</option>
-                    <option value="5">5 Personas</option>
-                    <option value="+5">Más de 5</option>
-                </select>
-            </div>
-            <button id="btnConsultar" class="bb-btn">Consultar</button>
         </div>
     </section>
 
@@ -164,6 +169,37 @@
         </div>
     </section>
 
+    <section id="eventos" class="section-container">
+        <div class="container">
+            <div class="events-card reveal">
+                <div class="events-content-col">
+                    <span class="section-subtitle">Corporativo</span>
+                    <h2 class="events-title">Salón de Eventos</h2>
+                    <div class="divider-left"></div>
+                    
+                    <p class="events-desc">
+                        Un espacio exclusivo diseñado para reuniones, capacitaciones y presentaciones con todas las comodidades técnicas.
+                    </p>
+                    
+                    <ul class="events-list">
+                        <li><i class="fa-solid fa-users-rectangle"></i> Capacidad 30 Pax (Auditorio)</li>
+                        <li><i class="fa-solid fa-tv"></i> Pantalla</li>
+                        <li><i class="fa-solid fa-volume-high"></i> Sonido</li>
+                        <li><i class="fa-solid fa-mug-hot"></i> Servicio de Break</li>
+                    </ul>
+
+                    <a href="https://wa.me/5493446621925?text=Hola,%20quisiera%20consultar%20por%20el%20salón%20de%20eventos." target="_blank" class="btn-primary mt-20">
+                        Consultar Disponibilidad
+                    </a>
+                </div>
+                
+                <div class="events-image-col">
+                    <img src="img/hotel/entrada.jpg" alt="Salón de Eventos">
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="servicios" class="section-container bg-pattern">
         <div class="container">
             <div class="section-header text-center reveal">
@@ -225,7 +261,7 @@
                     </div>
                 </div>
                 
-                <button class="btn-text mt-20" onclick="resetMap()" style="margin-top: 20px; display:inline-block;">
+                <button class="btn-text mt-20" onclick="resetMap()" style="margin-top: 20px; display:inline-block; color:#fff; border-color:#fff;">
                     <i class="fa-solid fa-rotate-left"></i> Volver a ubicación del Hotel
                 </button>
             </div>

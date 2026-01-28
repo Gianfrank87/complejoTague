@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. MENÚ MÓVIL ---
+    // ==========================================
+    // 1. FUNCIONALIDADES GENERALES (Menú, Loader, Scroll)
+    // ==========================================
+
+    // --- MENÚ MÓVIL ---
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const navMenu = document.getElementById('navMenu');
 
@@ -19,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 2. PRELOADER GLOBAL ---
+    // --- PRELOADER GLOBAL ---
     const pageLoader = document.getElementById('page-loader');
     if (pageLoader) {
         setTimeout(() => {
@@ -28,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     }
 
-    // --- 3. SCROLL SUAVE ---
+    // --- SCROLL SUAVE ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
@@ -48,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 4. ANIMACIÓN REVEAL ---
+    // --- ANIMACIÓN REVEAL (Aparición suave) ---
     const reveals = document.querySelectorAll('.reveal');
     const revealOnScroll = () => {
         const windowHeight = window.innerHeight;
@@ -63,7 +67,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', revealOnScroll);
     revealOnScroll();
 
-    // --- 5. LOGICA DE BARRA DE RESERVA (HOTEL) ---
+
+    // ==========================================
+    // 2. LÓGICA DEL HOTEL (Restaurada)
+    // ==========================================
+
+    // --- BARRA DE RESERVA ---
     const checkinInput = document.getElementById('checkin');
     const checkoutInput = document.getElementById('checkout');
     const guestsSelect = document.getElementById('guests');
@@ -94,16 +103,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 6. SISTEMA DE HORARIOS (PARADOR) ---
+    // ==========================================
+    // 3. LÓGICA DEL PARADOR
+    // ==========================================
+
+    // --- SISTEMA DE HORARIOS ---
     if (document.getElementById('gridContainer') || document.getElementById('listContainer')) {
         initScheduleSystem();
     }
+
+    // --- SLIDER REGIONAL (Nuevo) ---
+    initRegionalSlider();
 
 }); // --- FIN DOMContentLoaded ---
 
 
 // ==========================================
-//          FUNCIONES GLOBALES
+//          FUNCIONES GLOBALES Y HOTEL
 // ==========================================
 
 function formatDate(dateString) {
@@ -111,7 +127,7 @@ function formatDate(dateString) {
     return `${day}/${month}/${year}`;
 }
 
-// RESTAURADO: Función para consultar habitación específica (Hotel)
+// Función para consultar habitación específica (Hotel)
 function consultarHabitacion(tipo) {
     const message = `Hola! Estoy interesado en reservar la habitación *${tipo}*.`;
     window.open(`https://wa.me/5493446621925?text=${message}`, '_blank');
@@ -143,7 +159,7 @@ function toggleGallery(galleryId, btn) {
     }
 }
 
-// Modal de Imágenes
+// Modal de Imágenes (Galería)
 let currentImages = [];
 let currentIndex = 0;
 
@@ -179,7 +195,7 @@ function navigateImage(direction) {
     
     const img = currentImages[currentIndex];
     const modalImg = document.getElementById('modalImage');
-    const caption = document.getElementById('modalCaption'); // Agregado por seguridad
+    const caption = document.getElementById('modalCaption');
     if (modalImg) modalImg.src = img.src;
     if (caption) caption.textContent = img.alt;
 }
@@ -191,7 +207,7 @@ document.addEventListener('keydown', (e) => {
 // Lógica de Mapa (Hotel)
 function updateMap(cardElement, mapUrl) {
     const mapFrame = document.getElementById('dynamicMap');
-    const mapLoader = document.getElementById('mapLoader'); // Recuperado loader
+    const mapLoader = document.getElementById('mapLoader');
     if (!mapFrame) return;
 
     document.querySelectorAll('.place-card').forEach(card => card.classList.remove('active'));
@@ -207,7 +223,6 @@ function updateMap(cardElement, mapUrl) {
     }, 200);
 }
 
-// RESTAURADO: Función para resetear mapa (Hotel)
 function resetMap() {
     const initialUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3344.501222738296!2d-58.62336862357091!3d-33.04326877677655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95baa82f7036ff21%3A0x92cca64ac3fdedab!2sParador%20%26%20Hotel%20El%20Tag%C3%BCe!5e0!3m2!1ses-419!2sar!4v1769046901040!5m2!1ses-419!2sar"; 
     document.querySelectorAll('.place-card').forEach(card => card.classList.remove('active'));
@@ -225,10 +240,72 @@ function resetMap() {
 }
 
 
-// =========================================================
-//   SISTEMA DE HORARIOS HÍBRIDO (GRID / LIST)
-// =========================================================
+// ==========================================
+//          FUNCIONES DEL PARADOR
+// ==========================================
 
+// --- SLIDER REGIONAL ---
+function initRegionalSlider() {
+    const track = document.getElementById('regionalTrack');
+    if (!track) return;
+
+    const slides = Array.from(track.children);
+    const nextButton = document.getElementById('btnNextSlide');
+    const prevButton = document.getElementById('btnPrevSlide');
+    const dotsNav = document.getElementById('sliderDots');
+    
+    let currentIndex = 0;
+    const slideIntervalTime = 4000;
+    let slideInterval;
+
+    slides.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+            resetTimer();
+        });
+        dotsNav.appendChild(dot);
+    });
+
+    const dots = Array.from(dotsNav.children);
+
+    function goToSlide(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+
+        track.style.transform = 'translateX(-' + (index * 100) + '%)';
+        dots.forEach(dot => dot.classList.remove('active'));
+        dots[index].classList.add('active');
+        currentIndex = index;
+    }
+
+    if(nextButton) nextButton.addEventListener('click', () => {
+        goToSlide(currentIndex + 1);
+        resetTimer();
+    });
+
+    if(prevButton) prevButton.addEventListener('click', () => {
+        goToSlide(currentIndex - 1);
+        resetTimer();
+    });
+
+    function startTimer() {
+        slideInterval = setInterval(() => {
+            goToSlide(currentIndex + 1);
+        }, slideIntervalTime);
+    }
+
+    function resetTimer() {
+        clearInterval(slideInterval);
+        startTimer();
+    }
+
+    startTimer();
+}
+
+// --- SISTEMA DE HORARIOS ---
 async function initScheduleSystem() {
     const gridContainer = document.getElementById('gridContainer');
     const listContainer = document.getElementById('listContainer');
@@ -241,7 +318,6 @@ async function initScheduleSystem() {
 
     if (!gridContainer || !listContainer) return;
 
-    // --- 1. CONFIGURACIÓN ---
     const logoMapList = {
         "via bariloche": "img/logos/via bariloche.jpg",
         "flecha bus": "img/logos/flecha bus.png",
@@ -257,46 +333,34 @@ async function initScheduleSystem() {
         { name: "Crucero del Norte", headerClass: "header-crucero", region: "Crucero del Norte", logoSvg: "img/parador/crucero del norte.svg", borderClass: "border-crucero" }
     ];
 
-    // --- 2. DATOS DE LOS VIAJES ---
     const allTrips = [
-        // VIA BARILOCHE
         { empresa: "Via Bariloche", time: "04:35", dest: "Retiro", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
         { empresa: "Via Bariloche", time: "05:30", dest: "Retiro", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
         { empresa: "Via Bariloche", time: "07:35", dest: "Retiro", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
         { empresa: "Via Bariloche", time: "09:50", dest: "Retiro", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
         { empresa: "Via Bariloche", time: "10:25", dest: "Retiro", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
-        
         { empresa: "Via Bariloche", time: "04:35", dest: "Mar del Plata", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
-        
         { empresa: "Via Bariloche", time: "00:00", dest: "Posadas", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
         { empresa: "Via Bariloche", time: "00:40", dest: "Posadas", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
         { empresa: "Via Bariloche", time: "17:35", dest: "Posadas", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
         { empresa: "Via Bariloche", time: "21:00", dest: "Posadas", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
         { empresa: "Via Bariloche", time: "23:05", dest: "Posadas", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
-        
         { empresa: "Via Bariloche", time: "00:00", dest: "Puerto Iguazú", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
         { empresa: "Via Bariloche", time: "00:40", dest: "Puerto Iguazú", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
         { empresa: "Via Bariloche", time: "17:35", dest: "Puerto Iguazú", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
         { empresa: "Via Bariloche", time: "21:00", dest: "Puerto Iguazú", info: "Cama / Semi", web: "https://www.viabariloche.com.ar" },
-
-        // RAPIDO TATA
         { empresa: "Rapido Tata", time: "19:40", dest: "Roque Sáenz Peña", info: "Cama / Semi", web: "https://www.rapidotata.com.ar" },
         { empresa: "Rapido Tata", time: "19:40", dest: "Mercedes", info: "Cama / Semi", web: "https://www.rapidotata.com.ar" },
         { empresa: "Rapido Tata", time: "19:40", dest: "Resistencia", info: "Cama / Semi", web: "https://www.rapidotata.com.ar" },
         { empresa: "Rapido Tata", time: "19:40", dest: "Miraflores", info: "Cama / Semi", web: "https://www.rapidotata.com.ar" },
-
-        // FLECHA BUS
         { empresa: "Flecha Bus", time: "14:00", dest: "Porto Alegre (Brasil)", info: "Cama / Semi", web: "https://www.flechabus.com.ar" },
         { empresa: "Flecha Bus", time: "14:00", dest: "Florianópolis (Brasil)", info: "Cama / Semi", web: "https://www.flechabus.com.ar" },
         { empresa: "Flecha Bus", time: "14:00", dest: "Camboriú (Brasil)", info: "Cama / Semi", web: "https://www.flechabus.com.ar" },
-
-        // CRUCERO DEL NORTE
         { empresa: "Crucero del Norte", time: "20:30", dest: "Eldorado", info: "Cama / Semi", web: "https://www.crucerodelnorte.com.ar" },
         { empresa: "Crucero del Norte", time: "20:30", dest: "Posadas", info: "Cama / Semi", web: "https://www.crucerodelnorte.com.ar" },
         { empresa: "Crucero del Norte", time: "20:30", dest: "Puerto Iguazú", info: "Cama / Semi", web: "https://www.crucerodelnorte.com.ar" }
     ];
 
-    // --- 3. AUTOCOMPLETADO PERSONALIZADO ---
     function setupAutocomplete() {
         if(!searchInput || !suggestionsList) return;
         const destinations = [...new Set(allTrips.map(t => t.dest))].sort();
@@ -338,7 +402,6 @@ async function initScheduleSystem() {
         });
     }
 
-    // --- 4. CONTROLADOR DE VISTAS ---
     let currentViewMode = 'grid'; 
 
     function switchView() {
@@ -360,7 +423,6 @@ async function initScheduleSystem() {
         }
     }
 
-    // --- 5. FILTRO DE BÚSQUEDA ---
     function applyFilter(searchTerm) {
         const term = searchTerm.toLowerCase();
 
@@ -411,10 +473,8 @@ async function initScheduleSystem() {
         }
     }
 
-    // --- 6. RENDERIZADO: MODO GRILLA ---
     function renderGrid() {
         gridContainer.innerHTML = '';
-        
         mainCompaniesConfig.forEach(config => {
             const trips = allTrips.filter(t => t.empresa === config.name);
             trips.sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
@@ -427,18 +487,11 @@ async function initScheduleSystem() {
             `).join('');
 
             const logoPath = config.logoSvg;
-            
-            // LÓGICA DE OVERLAY CON ENLACE
             const firstTrip = trips.length > 0 ? trips[0] : null;
             const companyUrl = firstTrip ? firstTrip.web : "#";
             let overlayHtml = '';
             if (companyUrl && companyUrl.startsWith('http')) {
-                overlayHtml = `
-                    <a href="${companyUrl}" target="_blank" class="website-link-overlay">
-                        <span>Ir al sitio</span>
-                        <i class="fa-solid fa-arrow-right-long"></i>
-                    </a>
-                `;
+                overlayHtml = `<a href="${companyUrl}" target="_blank" class="website-link-overlay"><span>Ir al sitio</span><i class="fa-solid fa-arrow-right-long"></i></a>`;
             }
             
             const card = document.createElement('div');
@@ -453,31 +506,22 @@ async function initScheduleSystem() {
                 </div>
                 <ul class="departure-list">
                     ${listItems || '<li style="padding:20px; color:#999;">Sin servicios</li>'}
-                    <li class="no-results-in-card hidden">
-                        No encontrado en esta empresa.
-                        <small>Consulte en mostrador</small>
-                    </li>
+                    <li class="no-results-in-card hidden">No encontrado en esta empresa.<small>Consulte en mostrador</small></li>
                 </ul>
             `;
             gridContainer.appendChild(card);
         });
     }
 
-    // --- 7. RENDERIZADO: MODO LISTA ---
     function renderList() {
         listScrollArea.innerHTML = '';
-        
         const sortedTrips = [...allTrips].sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
 
         sortedTrips.forEach((trip, index) => {
             const logoPath = getLogoPathList(trip.empresa);
-            
             const companyConfig = mainCompaniesConfig.find(c => c.name === trip.empresa);
             const borderClass = companyConfig ? companyConfig.borderClass : '';
-
-            const btnLink = trip.web ? 
-                `<a href="${trip.web}" target="_blank" class="btn-ticket"><i class="fa-solid fa-ticket"></i> Comprar</a>` : 
-                `<span class="btn-ticket" style="background:#ccc; cursor:not-allowed;">Boletería</span>`;
+            const btnLink = trip.web ? `<a href="${trip.web}" target="_blank" class="btn-ticket"><i class="fa-solid fa-ticket"></i> Comprar</a>` : `<span class="btn-ticket" style="background:#ccc; cursor:not-allowed;">Boletería</span>`;
 
             const row = document.createElement('div');
             row.className = `schedule-row ${borderClass}`;
@@ -485,23 +529,10 @@ async function initScheduleSystem() {
             row.classList.add('fade-in-up');
             
             row.innerHTML = `
-                <div class="row-logo">
-                    <img src="${logoPath}" alt="${trip.empresa}">
-                </div>
-                <div class="row-time">
-                    <span class="time-big">${trip.time}</span>
-                    <span class="time-label">Salida</span>
-                </div>
-                <div class="row-info">
-                    <strong class="row-dest">${trip.dest}</strong>
-                    <div class="row-meta">
-                        <span><i class="fa-solid fa-bus"></i> ${trip.empresa}</span>
-                        <span><i class="fa-solid fa-couch"></i> ${trip.info}</span>
-                    </div>
-                </div>
-                <div class="row-action">
-                    ${btnLink}
-                </div>
+                <div class="row-logo"><img src="${logoPath}" alt="${trip.empresa}"></div>
+                <div class="row-time"><span class="time-big">${trip.time}</span><span class="time-label">Salida</span></div>
+                <div class="row-info"><strong class="row-dest">${trip.dest}</strong><div class="row-meta"><span><i class="fa-solid fa-bus"></i> ${trip.empresa}</span><span><i class="fa-solid fa-couch"></i> ${trip.info}</span></div></div>
+                <div class="row-action">${btnLink}</div>
             `;
             listScrollArea.appendChild(row);
         });
@@ -509,20 +540,14 @@ async function initScheduleSystem() {
         const noRes = document.createElement('div');
         noRes.id = 'noResultsList';
         noRes.className = 'no-results-list hidden';
-        noRes.innerHTML = `
-            <i class="fa-solid fa-road"></i>
-            <p>No se encontraron viajes para ese destino.</p>
-            <small>Intente con otro o consulte en mostrador.</small>
-        `;
+        noRes.innerHTML = `<i class="fa-solid fa-road"></i><p>No se encontraron viajes para ese destino.</p><small>Intente con otro o consulte en mostrador.</small>`;
         listScrollArea.appendChild(noRes);
     }
 
-    // --- UTILS ---
     function timeToMinutes(timeStr) {
         if (!timeStr) return 0;
         let cleanTime = timeStr.toLowerCase().replace('hs', '').replace(' ', '').trim();
         if (!cleanTime.includes(':')) cleanTime += ':00';
-        
         const [hours, minutes] = cleanTime.split(':').map(Number);
         return (hours * 60) + (minutes || 0);
     }
@@ -532,11 +557,9 @@ async function initScheduleSystem() {
         return logoMapList[key] || "img/logo.svg";
     }
 
-    // --- EVENTOS ---
     if(btnPrev) btnPrev.addEventListener('click', switchView);
     if(btnNext) btnNext.addEventListener('click', switchView);
 
-    // Inicializar
     setupAutocomplete();
     renderGrid();
     renderList(); 
